@@ -1,5 +1,5 @@
 import React from 'react';
-import CountDownTimer from "./CountDownTimer.jsx";
+import CountdownTimer from './CountdownTimer.jsx';
 
 const StickyCountdown = ({ duration = 3600 }) => {
   return (
