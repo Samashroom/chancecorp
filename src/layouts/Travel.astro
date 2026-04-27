@@ -2,6 +2,7 @@
 import Navigation from "../components/travel/Navigation.astro";
 import Footer from "../components/travel/Footer.astro";
 import AgreementPopup from "../components/AgreementPopup";
+import RandomAdRotator from '../components/RandomAdRotator.astro';
 ---
 
 <!doctype html>
@@ -16,6 +17,7 @@ import AgreementPopup from "../components/AgreementPopup";
       <Navigation />
       <slot />
     </div>
+    <RandomAdRotator />
     <Footer />
 	<AgreementPopup pdfUrl="/ChanceCorp-agreement.pdf" client:load />
   </body>
