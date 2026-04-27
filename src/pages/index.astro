@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Home.astro';
+import  RandomAdRotator from '../components/RandomAdRotator.astro';
+import AgreementPopup from '../components/AgreementPopup.tsx';
+
+---
+
+<Layout>
+  <a href="/chancetravel">Шанстревел</a>
+  <a href="/methabolift">Метаболифт</a>
+  <RandomAdRotator />
+<AgreementPopup pdfUrl="/ChanceCorp-agreement.pdf" client:load />
+</Layout>

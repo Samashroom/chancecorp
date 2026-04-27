@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import RandomAdClient from './RandomAdClient';
+
+// Получаем все объявления
+const allAds = await getCollection('ads');
+
+// Перемешиваем массив случайным образом
+const shuffledAds = [...allAds].sort(() => Math.random() - 0.5);
+---
+
+{shuffledAds.length > 0 && (
+  <RandomAdClient ads={shuffledAds.map(ad => ad.data)} client:load />
+)}

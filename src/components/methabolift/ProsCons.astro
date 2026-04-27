@@ -1,0 +1,45 @@
+---
+const { name } = Astro.props;
+---
+
+<div>
+  <h4>{name}</h4>
+  <ol>
+    <slot />
+  </ol>
+</div>
+
+<style>
+  div {
+    width: 50%;
+    background: linear-gradient(#f6f6f6, #d6d6d6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.466);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    text-align: baseline;
+  }
+
+  h4 {
+    margin-top: 0;
+    color: #333;
+    font-size: 28px;
+
+    text-align: center;
+  }
+
+  ol {
+    gap: 8px;
+    padding: 0;
+    list-style-position: inside;
+  }
+  @media screen and (max-width: 768px) {
+    div {
+      width: 100%;
+    }
+    h4 {
+      font-size: 22px;
+    }
+  }
+</style>

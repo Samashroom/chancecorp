@@ -1,0 +1,242 @@
+---
+import Layout from "../../../layouts/Travel.astro";
+import { getCollection } from "astro:content";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const destinations = await getCollection("destinations");
+  return destinations.map((destination) => ({
+    params: { id: destination.id },
+    props: { destination },
+  }));
+}
+
+const { destination } = Astro.props;
+const { Content } = await render(destination);
+---
+
+<Layout>
+  <article class="tour-page">
+    <div class="container">
+      {/* Заголовок и описание */}
+      <header class="tour-header">
+        <h1>{destination.data.title}</h1>
+        <p class="description">{destination.data.description}</p>
+        <div class="rating">
+          <span class="rating-label">⭐ Рейтинг:</span>
+          <span class="rating-value">{destination.data.rating}/5</span>
+        </div>
+        {/* Главное изображение */}
+        {
+          destination.data.image && (
+            <div class="image-wrapper">
+              <img src={destination.data.image} alt={destination.data.title} />
+            </div>
+          )
+        }
+      </header>
+
+      {/* Содержание тура */}
+      <div class="content-wrapper">
+        <Content />
+      </div>
+
+      {/* Кнопка заказа */}
+      <div class="button-wrapper">
+        <a href="/" class="order-button">ЗАКАЗАТЬ ТУР</a>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  /* Основные переменные для чистоты */
+  .tour-page {
+    font-family:
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      sans-serif;
+    background-color: #fafafa;
+    min-height: 100vh;
+  }
+
+  .container {
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Шапка тура */
+  .tour-header {
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 1.5rem;
+  }
+
+  h1 {
+    color: #1a1a1a;
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: -0.01em;
+  }
+
+  .description {
+    color: #555;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+  }
+
+  .rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f5f5f5;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+
+  .rating-label {
+    color: #666;
+  }
+
+  .rating-value {
+    font-weight: 600;
+    color: #2c3e2f;
+  }
+
+  /* Изображение */
+  .image-wrapper {
+    margin: 2rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.2s;
+  }
+
+  /* Содержание из Markdown */
+  .content-wrapper {
+    margin: 2rem 0;
+    color: #2c2c2c;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  /* Стили для элементов внутри .content-wrapper (они придут из Markdown) */
+  .content-wrapper :global(h2) {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 1.8rem 0 1rem 0;
+    color: #1a1a1a;
+    border-left: 3px solid #2c3e2f;
+    padding-left: 0.75rem;
+  }
+
+  .content-wrapper :global(h3) {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 1.5rem 0 0.75rem 0;
+    color: #2c3e2f;
+  }
+
+  .content-wrapper :global(p) {
+    margin: 0 0 1rem 0;
+  }
+
+  .content-wrapper :global(ul),
+  .content-wrapper :global(ol) {
+    margin: 0.5rem 0 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .content-wrapper :global(li) {
+    margin: 0.25rem 0;
+  }
+
+  .content-wrapper :global(strong) {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  .content-wrapper :global(blockquote) {
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    border-left: 3px solid #2c3e2f;
+    background-color: #f8f8f8;
+    font-style: italic;
+    color: #444;
+  }
+
+  /* Кнопка */
+  .button-wrapper {
+    margin: 2.5rem 0 1rem 0;
+    text-align: center;
+  }
+
+  .order-button {
+    display: inline-block;
+    background: linear-gradient(
+      #e6f0c3 0%,
+      #0e6127 10%,
+      #11851b 90%,
+      #022e0f 100%
+    );
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition:
+      background-color 0.2s,
+      transform 0.1s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .order-button:hover {
+    background-color: #1e2c20;
+    transform: scale(1.2);
+  }
+
+  .order-button:active {
+    transform: scale(0.98);
+  }
+
+  /* Адаптивность */
+  @media (max-width: 640px) {
+    .container {
+      padding: 1.5rem 1rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    .description {
+      font-size: 1rem;
+    }
+
+    .content-wrapper {
+      font-size: 0.95rem;
+    }
+
+    .content-wrapper :global(h2) {
+      font-size: 1.4rem;
+    }
+  }
+</style>

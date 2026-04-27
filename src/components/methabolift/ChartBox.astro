@@ -1,0 +1,145 @@
+<div id="chart-box">
+  <div class="donut-card">
+    <div class="donut-label">
+      <strong>Без Methabolift</strong>
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <defs>
+          <style>
+            @keyframes drawChart1 {
+              from {
+                stroke-dashoffset: 314;
+              }
+              to {
+                stroke-dashoffset: 0;
+              }
+            }
+            .segment1 {
+              animation: drawChart1 1s ease-out forwards;
+            }
+            .segment2 {
+              animation: drawChart1 1s ease-out forwards;
+            }
+            .segment3 {
+              animation: drawChart1 1s ease-out forwards;
+            }
+          </style>
+        </defs>
+
+        <circle
+          cx="75"
+          cy="75"
+          r="50"
+          fill="white"
+          stroke="#e0e0e0"
+          stroke-width="1"></circle>
+
+        <circle
+          cx="75"
+          cy="75"
+          r="50"
+          fill="none"
+          stroke="#808080"
+          stroke-width="25"
+          stroke-dasharray="125.66 314.16"
+          stroke-dashoffset="0"
+          transform="rotate(-90 75 75)"></circle>
+
+        <circle
+          cx="75"
+          cy="75"
+          r="50"
+          fill="none"
+          stroke="#FFD700"
+          stroke-width="25"
+          stroke-dasharray="157.08 314.16"
+          stroke-dashoffset="-125.66"
+          transform="rotate(-90 75 75)"></circle>
+
+        <circle
+          cx="75"
+          cy="75"
+          r="50"
+          fill="none"
+          stroke="#00FFFF"
+          stroke-width="25"
+          stroke-dasharray="31.42 314.16"
+          stroke-dashoffset="-282.74"
+          transform="rotate(-90 75 75)"></circle>
+      </svg>
+      <span>Сон: 8 часов</span>
+      <span>Работа: 10 часов</span>
+      <span>Всё остальное: 4 часа</span>
+    </div>
+  </div>
+  <div class="donut-card">
+    <div class="donut-label">
+      <strong>С Methabolift</strong>
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <circle
+          cx="75"
+          cy="75"
+          r="50"
+          fill="white"
+          stroke="#e0e0e0"
+          stroke-width="1"></circle>
+
+        <circle
+          cx="75"
+          cy="75"
+          r="50"
+          fill="none"
+          stroke="#FFD700"
+          stroke-width="25"
+          stroke-dasharray="188.5 314.16"
+          stroke-dashoffset="0"
+          transform="rotate(-90 75 75)"></circle>
+
+        <circle
+          cx="75"
+          cy="75"
+          r="50"
+          fill="none"
+          stroke="#00FFFF"
+          stroke-width="25"
+          stroke-dasharray="125.66 314.16"
+          stroke-dashoffset="-188.5"
+          transform="rotate(-90 75 75)"></circle>
+      </svg>
+      <span>Сон: НЕ НУЖЕН</span>
+      <span>Работа: 14 часов</span>
+      <span>Развлечения: 10 часов</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  #chart-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .donut-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 2px solid rgba(64, 122, 122, 0.4);
+    border-radius: 14px;
+  }
+  .donut-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #2c2d75;
+    font-size: 18px;
+  }
+  .donut-label strong {
+    font-size: 20px;
+  }
+</style>

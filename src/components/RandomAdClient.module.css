@@ -1,0 +1,71 @@
+/* src/components/RandomAdClient.module.css или в глобальном CSS */
+.ad-card {
+  display: block;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.5s ease-in-out;
+  max-width: 300px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ad-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.ad-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.ad-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.ad-card p {
+  margin: 0.5rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.fade-in {
+  opacity: 1;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.ad-counter {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #999;
+  text-align: center;
+}
+
+.ad-rotator-finished {
+  text-align: center;
+  padding: 2rem;
+  background: #f0f0f0;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,176 @@
+---
+const baseUrl = import.meta.env.BASE_URL;
+---
+<nav class="navbar">
+    <div class="nav-container">
+        <a href={`/chancetravel`} class="logo">ChanceTravel</a>
+        <ul class="nav-menu">
+            <li><a href={`/chancetravel`}>Главная</a></li>
+            <li><a href={`/chancetravel/about`}>О нас</a></li>
+            <li><a href={`/chancetravel/destinations`}>Направления</a></li>
+            <li><a href={`/chancetravel/ambassadors`}>Амбасадоры</a></li>
+        </ul>
+        <div class="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>
+<script>
+    const burger = document.querySelector(".burger");
+    const navMenu = document.querySelector(".nav-menu");
+
+    burger.addEventListener("click", () => {
+        burger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+    });
+
+    // Закрывать меню при клике на ссылку
+    document.querySelectorAll(".nav-menu li a").forEach((link) => {
+        link.addEventListener("click", () => {
+            burger.classList.remove("active");
+            navMenu.classList.remove("active");
+        });
+    });
+</script>
+
+
+<style>
+    /* Основные стили навбара */
+    .navbar {
+        width: 100%;
+        background: linear-gradient(#4766f5 0%, #2d1696 100%);
+        padding: 1rem 0;
+        border-radius: 5px 5px 0px 0px;
+        position: sticky;
+        top: -5px;
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    /* Логотип */
+    .logo {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+        letter-spacing: 2px;
+        transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+        transform: scale(1.05);
+    }
+
+    /* Меню навигации */
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-menu li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    /* Эффект подчеркивания */
+    .nav-menu li a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: white;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
+    .nav-menu li a:hover::after {
+        width: 80%;
+    }
+
+    .nav-menu li a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    /* Бургер-меню (для мобильных устройств) */
+    .burger {
+        display: none;
+        cursor: pointer;
+    }
+
+    .burger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: white;
+        margin: 5px 0;
+        transition: all 0.3s ease;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 768px) {
+        .burger {
+            display: block;
+        }
+
+        .nav-menu {
+            position: fixed;
+            left: -100%;
+            top: 70px;
+            flex-direction: column;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+            box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+            padding: 2rem 0;
+            gap: 1.5rem;
+        }
+
+        .nav-menu.active {
+            left: 0;
+        }
+
+        .nav-menu li a {
+            display: block;
+            padding: 0.8rem;
+        }
+
+        /* Анимация бургера */
+        .burger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    }
+</style>
+

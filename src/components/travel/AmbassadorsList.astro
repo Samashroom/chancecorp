@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+
+const allAmbassadors = await getCollection('ambassadors');
+---
+
+<div class="ambassadors-list">
+  {allAmbassadors.map((ambassador, index) => {
+    const isImageLeft = index % 2 === 0;
+    
+    return (
+      <div class="ambassador-card" class:list={[{ reverse: !isImageLeft }]}>
+        <div class="image-wrapper">
+          <img src={ambassador.data.image} alt={ambassador.data.title} />
+        </div>
+        
+        <div class="content-wrapper">
+          <h3 class="ambassador-name">{ambassador.data.title}</h3>
+          <p class="ambassador-description">{ambassador.data.description}</p>
+          
+          {ambassador.data.link && (
+            <a href={ambassador.data.link} class="ambassador-link">
+              Узнать больше →
+            </a>
+          )}
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  .ambassadors-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .ambassador-card {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.459);
+    border-radius: 5px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Обычное расположение: фото слева, контент справа */
+  .ambassador-card {
+    flex-direction: row;
+  }
+
+  /* Реверс: фото справа, контент слева */
+  .ambassador-card.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .image-wrapper {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: fill;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .content-wrapper {
+    flex: 1;
+    padding: 1rem;
+  }
+
+  .ambassador-name {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0 0 0.75rem 0;
+    color: #1a1a1a;
+  }
+
+  .ambassador-description {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+  }
+
+  .ambassador-link {
+    color: #2c3e2f;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: gap 0.2s;
+  }
+
+  .ambassador-link:hover {
+    gap: 0.5rem;
+    text-decoration: underline;
+  }
+
+  /* Адаптивность: на мобильных фото сверху, текст снизу */
+  @media (max-width: 768px) {
+    .ambassador-card,
+    .ambassador-card.reverse {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .image-wrapper img {
+      height: 50vh;
+    }
+
+    .content-wrapper {
+      text-align: center;
+      padding: 0;
+    }
+  }
+</style>
