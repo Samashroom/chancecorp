@@ -20,7 +20,7 @@ function getSlug(destination) {
         allDestinations.map((dest) => {
             const slug = getSlug(dest);
             return (
-                <a href={`/${slug}`} class="card-link">
+                <a href={`destinations/${slug}`} class="card-link">
                     <article class="destination-card">
                         {dest.data.image && (
                             <div class="card-image">
