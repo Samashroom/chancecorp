@@ -1,14 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
 import RandomAdClient from './RandomAdClient';
+import { resolveContentImage } from '../lib/resolveContentImage';
 
 // Получаем все объявления
 const allAds = await getCollection('ads');
 
 // Перемешиваем массив случайным образом
 const shuffledAds = [...allAds].sort(() => Math.random() - 0.5);
+
+const adsWithResolvedImages = shuffledAds.map((ad) => ({
+  title: ad.data.title,
+  description: ad.data.description,
+  link: ad.data.link,
+  image: resolveContentImage(ad.data.image) ?? ad.data.image,
+}));
 ---
 
 {shuffledAds.length > 0 && (
-  <RandomAdClient ads={shuffledAds.map(ad => ad.data)} client:load />
+  <RandomAdClient ads={adsWithResolvedImages} client:load />
 )}

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { resolveContentImage } from '../../lib/resolveContentImage';
 
 const allAmbassadors = await getCollection('ambassadors');
 ---
@@ -11,7 +12,7 @@ const allAmbassadors = await getCollection('ambassadors');
     return (
       <div class="ambassador-card" class:list={[{ reverse: !isImageLeft }]}>
         <div class="image-wrapper">
-          <img src={ambassador.data.image} alt={ambassador.data.title} />
+          <img src={resolveContentImage(ambassador.data.image) ?? ambassador.data.image} alt={ambassador.data.title} />
         </div>
         
         <div class="content-wrapper">
