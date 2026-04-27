@@ -1,5 +1,5 @@
 import React from 'react';
-import CountdownTimer from './methabolift/CountDownTimer.jsx';
+import CountDownTimer from "./CountDownTimer.jsx";
 
 const StickyCountdown = ({ duration = 3600 }) => {
   return (
