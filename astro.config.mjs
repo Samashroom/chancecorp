@@ -4,7 +4,7 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://Samashroom.github.io',
+  site: 'https://samashroom.github.io',
   base: '/chancecorp',
   integrations: [react()],
 });
