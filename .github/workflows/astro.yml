@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]  # или 'master', если ваша основная ветка называется так
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '22'     # ← ГЛАВНОЕ ИЗМЕНЕНИЕ ЗДЕСЬ
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
@@ -28,7 +28,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'  # Стандартная папка для сборки Astro
+          path: './dist'
 
   deploy:
     needs: build
