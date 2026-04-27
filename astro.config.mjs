@@ -6,5 +6,6 @@ import react from "@astrojs/react";
 export default defineConfig({
   site: 'https://chancecorp.ru',
   base: '',
+  trailingSlash: 'never',
   integrations: [react()],
 });
