@@ -1,0 +1,6 @@
+---
+import { getCollection } from "astro:content";
+import ShopGrid from "./ShopGrid";
+const items = await getCollection("met");
+---
+<ShopGrid client:load items={items} itemsPerPage={12} />

@@ -7,7 +7,10 @@ function CodeChecker() {
   const checkCode = () => {
     if (inputCode === "1234") {
       window.location.href = "/";
-    } else {
+    }else if (inputCode === "zvzd2206") {
+      window.location.href = "/methabolift";
+    }
+    else {
       alert("Неверный код! Попробуйте ещё раз");
     }
   };
