@@ -1,5 +1,5 @@
 ---
 title: "Clohlen"
-image: "/src/assets/travel/windows.png"
-description: "Краткое описание товара"
+image: "/src/assets/mehabolift/classic.png"
+description: "Нестареющая классика"
 ---
