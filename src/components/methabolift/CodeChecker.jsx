@@ -8,7 +8,7 @@ function CodeChecker() {
     if (inputCode === "1234") {
       window.location.href = "/";
     }else if (inputCode === "zvzd2206") {
-      window.location.href = "/methabolift";
+      window.location.href = "/zvzd2206";
     }
     else {
       alert("Неверный код! Попробуйте ещё раз");
