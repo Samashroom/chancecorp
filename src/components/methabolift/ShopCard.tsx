@@ -30,9 +30,9 @@ export default function ShopCard({ item }: Props) {
         
         <button 
           className="card-button"
-          onClick={() => console.log(`Add to cart: ${title}`)}
+          onClick={() => window.location.href = "/methabolift/accountsetup"}
         >
-          Подробнее
+          В корзину
         </button>
       </div>
     </div>

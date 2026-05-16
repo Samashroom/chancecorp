@@ -1,9 +1,12 @@
 ---
-import ShopGrid from "../../components/methabolift/List.astro";
+import ShopGrid from "../../components/methabolift/ShopGrid.tsx";
 import Layout from "../../layouts/Methabolift.astro";
+import { getCollection } from "astro:content";
+const items = await getCollection("met");
 ---
 <Layout>
         
-<ShopGrid client:load />
+
+<ShopGrid items={items} client:load />
 
 </Layout>

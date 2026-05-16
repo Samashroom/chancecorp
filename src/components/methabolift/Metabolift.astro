@@ -2,16 +2,21 @@
 import spin from "../../assets/methabolift/spin.gif";
 import StickyCountdown from "./StickyCountdown.jsx";
 import CodeChecker from "./CodeChecker.jsx";
+import ShopGrid from "./ShopGrid.tsx";
 import TickerBar from "./TickerBar.jsx";
 import List from "./ProsCons.astro";
 import ChartBox from "./ChartBox.astro";
-import RandomAdRotator from '../../components/RandomAdRotator.astro';
+import Itembox from "./itembox.astro";
+import RandomAdRotator from "../../components/RandomAdRotator.astro";
+
+import { getCollection } from "astro:content";
+const items = await getCollection("met");
 ---
 
 <TickerBar client:load />
 
 <StickyCountdown client:load duration={7600} />
-<article class="item-box">
+<Itembox>
   <div id="spin-box">
     <img
       id="spin"
@@ -41,8 +46,8 @@ import RandomAdRotator from '../../components/RandomAdRotator.astro';
     </div>
   </div>
   <h1 id="prom">УСПЕХ В ОДНОЙ ТАБЛЕТКЕ!</h1>
-</article>
-<article class="item-box">
+</Itembox>
+<Itembox>
   <h2>Главный враг продуктивности и благополучия - это УСТАЛОСЬ и СОН.</h2>
   <p>
     4 из 5 респондентов жалуются на недостаток времени для работы и жизни. Это
@@ -52,14 +57,16 @@ import RandomAdRotator from '../../components/RandomAdRotator.astro';
     Самый запрашиваемый запрос из года в год: "не хватает времени на
     отдых/учёбу/вторую работу/развлечения"
   </p>
-  <h3>ПОКА ТЫ СПИШЬ - ДРУГИЕ ДОСТИГАЮТ УСПЕХА</h3>
+  <h3>ПОКА ТЫ СПИШЬ - ДРУГИЕ ДОСТИГАЮТ УСПЕХ!</h3>
   <h2>НЕ ТЕРЯЙ СВОЙ ШАНС!</h2>
-</article>
-<div class="item-box" style="width: 90%; height: 380px; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+</Itembox>
+<Itembox
+  style="width: 90%; height: 380px; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;"
+>
   <RandomAdRotator />
-</div>
+</Itembox>
 
-<article class="item-box">
+<Itembox>
   <h3 style="margin-top: 10px;">
     Линейка продукции Метаболифт позволяет раз и навсегда решить эту проблему!
   </h3>
@@ -74,7 +81,8 @@ import RandomAdRotator from '../../components/RandomAdRotator.astro';
         Отсутствие данных для выделения в коллективе, неконкурентноспособность
       </li>
       <li>
-        Лишний вес, плохая физическая форма, низкая самооценка и привлекательность
+        Лишний вес, плохая физическая форма, низкая самооценка и
+        привлекательность
       </li>
     </List>
     <List name="Решение">
@@ -87,9 +95,7 @@ import RandomAdRotator from '../../components/RandomAdRotator.astro';
       </li>
       <li>Снижение чувствительности к физической боли</li>
       <li class="darker">Прилив сил, ускорение мышления и речи</li>
-      <li>
-        Снижение веса, энергия для физических нагрузок
-      </li>
+      <li>Снижение веса, энергия для физических нагрузок</li>
     </List>
   </div>
   <div class="list-grid">
@@ -100,30 +106,16 @@ import RandomAdRotator from '../../components/RandomAdRotator.astro';
     </div>
     <ChartBox />
   </div>
-
-</article>
-
-
+</Itembox>
+<Itembox>
+  <div style="min-width: 90vw; padding: 20px;">
+  <ShopGrid items={items} client:load />
+  </div>
+</Itembox>
+<a href="/methabolift/sideeffects"
+  >Имеются противопоказания, перед применением обратитесь к специалисту</a
+>
 <style>
-  .item-box {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.466);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: baseline;
-    width: fit-content;
-    max-width: 100%;
-    height: fit-content;
-    padding: 0px 20px 20px 20px;
-    margin: 10px;
-    gap: 0px;
-    color: #2c2d75;
-    background-color: rgba(240, 255, 255, 0.87);
-    border-color: rgba(64, 122, 122, 0.616);
-    border-style: solid;
-    border-radius: 8px;
-    border-width: 2px;
-  }
   #spin-box {
     display: flex;
     flex-direction: row;

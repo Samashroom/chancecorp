@@ -1,0 +1,24 @@
+<article class="item-box" {...Astro.props}>
+    <slot></slot>
+</article>
+<style>
+      .item-box {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.466);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    padding: 0px 20px 20px 20px;
+    margin: 10px;
+    gap: 0px;
+    color: #2c2d75;
+    background: linear-gradient(180deg, #ffffff 0%, #e0e0e09a 100%);
+    border-color: rgba(64, 122, 122, 0.616);
+    border-style: solid;
+    border-radius: 2px;
+    border-width: 2px;
+  }
+</style>

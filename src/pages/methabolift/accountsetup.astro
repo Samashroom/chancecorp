@@ -1,0 +1,15 @@
+---
+import Layout from "../../layouts/Methabolift.astro";
+import Itembox from "../../components/methabolift/itembox.astro";
+import RegistrationPanel from '../../components/methabolift/RegistrationPanel';
+import logo from "../../assets/methabolift/logo.png";
+---
+<Layout>
+    
+
+<Itembox>
+    <img src={logo.src} alt="Логотип Croesus Co." style="max-width: 150px; margin: 0 auto; display: block;" />
+ <h3 style="text-align: center;">Зарегистрируйтесь, чтобы оформить ежемесечную подписку</h3>
+    <RegistrationPanel client:load />
+</Itembox>
+</Layout>

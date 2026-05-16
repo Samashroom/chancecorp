@@ -1,5 +1,5 @@
 ---
 title: "Clohlen"
-image: "/src/assets/mehabolift/classic.png"
+image: "/src/assets/methabolift/classic.png"
 description: "Нестареющая классика"
 ---
