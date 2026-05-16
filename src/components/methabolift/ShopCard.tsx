@@ -1,4 +1,5 @@
 import type { CollectionEntry } from 'astro:content';
+import { resolveContentImage } from '../../lib/resolveContentImage';
 import './shop.css';
 
 interface Props {
@@ -7,12 +8,13 @@ interface Props {
 
 export default function ShopCard({ item }: Props) {
   const { title, description, image } = item.data;
+  const imageSrc = resolveContentImage(image) ?? image;
   
   return (
     <div className="shop-card">
       <div className="card-image-wrapper">
         <img
-          src={image}
+          src={imageSrc}
           alt={title}
           className="card-image"
           loading="lazy"
