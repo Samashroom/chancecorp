@@ -92,9 +92,8 @@ export default function RegistrationPanel() {
           max-width: 400px;
           margin: 0 auto;
           padding: 1.5rem;
-          background: white;
+          background: none;
           border-radius: 12px;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
           font-family: system-ui, -apple-system, sans-serif;
         }
         .method-tabs {
