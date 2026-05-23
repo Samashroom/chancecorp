@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CHANCE id</title>
+<style>
+    body {
+        margin: 0;
+        background: #999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    canvas {
+        width: 1200px;
+        height: 700px;
+        border: 1px solid #444;
+        image-rendering: smooth;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="cardCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById("cardCanvas");
+const ctx = canvas.getContext("2d");
+
+// ===== ВЫСОКОЕ РАЗРЕШЕНИЕ =====
+const scale = 3;
+
+canvas.width = 1200 * scale;
+canvas.height = 700 * scale;
+
+ctx.scale(scale, scale);
+
+// ===== ФОН =====
+ctx.fillStyle = "#c0c0c0";
+ctx.fillRect(0, 0, 1200, 700);
+
+// ===== СИНЯЯ ПОЛОСА СЛЕВА =====
+ctx.fillStyle = "#1d1dca";
+ctx.fillRect(0, 0, 60, 700);
+
+// ===== ЖЁЛТАЯ ПОЛОСА СВЕРХУ =====
+ctx.fillStyle = "#f3e600";
+ctx.fillRect(60, 0, 1140, 45);
+
+// ===== ЛОГО =====
+ctx.fillStyle = "#2442c7";
+ctx.font = "bold 34px Arial";
+ctx.fillText("CHANCE id", 990, 34);
+
+// ===== ФОТО БЛОК =====
+ctx.fillStyle = "#efefef";
+ctx.strokeStyle = "#2c7a88";
+ctx.lineWidth = 4;
+
+ctx.fillRect(30, 60, 370, 530);
+ctx.strokeRect(30, 60, 370, 530);
+
+// ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ =====
+function block(x, y, w, h, color, text, tx, ty, size=24) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, w, h);
+
+    ctx.fillStyle = "#8fb6c0";
+    ctx.font = `bold ${size}px Arial`;
+    ctx.fillText(text, tx, ty);
+}
+
+// ===== БЕЛЫЕ БЛОКИ =====
+block(420, 65, 750, 95, "#ececec", "имя", 425, 85);
+block(420, 165, 750, 95, "#ececec", "второе имя", 425, 190);
+block(420, 265, 750, 95, "#ececec", "фамилия", 425, 295);
+
+// ===== СЕРЫЙ БЛОК =====
+ctx.fillStyle = "#7d8da1";
+ctx.fillRect(420, 365, 750, 170);
+
+ctx.fillStyle = "#9ec1c9";
+ctx.font = "bold 24px Arial";
+ctx.fillText("гендерный маркер", 435, 390);
+ctx.fillText("место регистрации", 810, 390);
+ctx.fillText("дата регистрации", 435, 470);
+
+// ===== НИЖНИЙ БЛОК =====
+ctx.fillStyle = "#c9d9df";
+ctx.fillRect(420, 540, 750, 140);
+
+ctx.fillStyle = "#6f8a96";
+ctx.font = "bold 24px Arial";
+ctx.fillText("карта выдана", 445, 560);
+
+// ===== НОМЕР СЧЁТА =====
+ctx.fillStyle = "#ececec";
+ctx.font = "bold 20px Arial";
+ctx.fillText("номер", 65, 670);
+ctx.fillText("счета:", 65, 685);
+
+</script>
+
+</body>
+</html>
