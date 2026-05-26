@@ -5,7 +5,7 @@ import Logo from "../assets/logo.png";
 ---
 
 <Layout>
-  <img src={Logo.src} alt="ChanceCorp Logo" style="height: 90vh" />
+  <img src={Logo.src} alt="ChanceCorp Logo" class = "logo"/>
 
   <h1>CHANCECORP</h1>
 
@@ -13,9 +13,27 @@ import Logo from "../assets/logo.png";
 </Layout>
 
 <style>
+
   html {
     background-color: rgb(0, 38, 255);
     color: white;
+  }
+  .logo {
+    display: block;
+    margin: 0 auto;
+    height: 100vh;
+  }
+  @media (max-width: 600px) {
+    .logo {
+      width: 100vw;
+    }
+    h1 {
+      font-size: 4rem;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 90%;
+    }
   }
   h1 {
     font-size: 8rem;
