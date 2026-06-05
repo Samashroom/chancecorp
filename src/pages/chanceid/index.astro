@@ -3,98 +3,270 @@
 ---
 
 <meta charset="UTF-8" />
+<link href="https://cdn.jsdelivr.net/npm/cropperjs@2.0.0/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@2.0.0/dist/cropper.min.js"></script>
+
 <div class="editor">
+  <!-- УПРАВЛЕНИЕ ФОТО -->
+  <div class="photo-controls">
+    <input type="file" id="photoInput" accept="image/*" />
+    <div id="cropperContainer" class="cropper-container" style="display: none;">
+      <img id="cropperImage" src="" />
+      <div class="cropper-buttons">
+        <button id="applyCropBtn">✓ Применить</button>
+        <button id="cancelCropBtn">✕ Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANVAS КАРТОЧКА -->
   <canvas id="cardCanvas"></canvas>
 </div>
 
 <script>
   const canvas = document.getElementById("cardCanvas");
   const ctx = canvas.getContext("2d");
+  const photoInput = document.getElementById("photoInput");
+  const cropperContainer = document.getElementById("cropperContainer");
+  const cropperImage = document.getElementById("cropperImage");
+  const applyCropBtn = document.getElementById("applyCropBtn");
+  const cancelCropBtn = document.getElementById("cancelCropBtn");
+
+  // ===== ПЕРЕМЕННАЯ ДЛЯ ХРАНЕНИЯ ФОТО =====
+  let userPhoto = null;
+  let cropper = null;
 
   // ===== ВЫСОКОЕ РАЗРЕШЕНИЕ =====
-  const scale = 3;
+  const scale = 1;
 
   canvas.width = 1200 * scale;
-  canvas.height = 700 * scale;
+  canvas.height = 640 * scale;
 
   ctx.scale(scale, scale);
 
-  // ===== ФОН =====
-  ctx.fillStyle = "#c0c0c0";
-  ctx.fillRect(0, 0, 1200, 700);
+  // ===== ФУНКЦИЯ ОТРИСОВКИ КАРТОЧКИ =====
+  function drawCard() {
+    // ===== ФОН =====
+    ctx.fillStyle = "#c0c0c0";
+    ctx.fillRect(0, 0, 1200, 640);
 
-  // ===== СИНЯЯ ПОЛОСА СЛЕВА =====
-  ctx.fillStyle = "#1d1dca";
-  ctx.fillRect(0, 0, 60, 700);
+    // ===== СИНЯЯ ПОЛОСА СЛЕВА =====
+    ctx.fillStyle = "#1d1dca";
+    ctx.fillRect(0, 0, 60, 640);
 
-  // ===== ЖЁЛТАЯ ПОЛОСА СВЕРХУ =====
-  ctx.fillStyle = "#f3e600";
-  ctx.fillRect(60, 0, 1140, 45);
+    // ===== ЖЁЛТАЯ ПОЛОСА СВЕРХУ =====
+    ctx.fillStyle = "#f3e600";
+    ctx.fillRect(60, 0, 1140, 45);
 
-  // ===== ЛОГО =====
-  ctx.fillStyle = "#2442c7";
-  ctx.font = "bold 34px Arial";
-  ctx.fillText("CHANCE id", 990, 34);
+    // ===== ЛОГО =====
+    ctx.fillStyle = "#2442c7";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText("CHANCE id", 990, 34);
 
-  // ===== ФОТО БЛОК =====
-  ctx.fillStyle = "#efefef";
-  ctx.strokeStyle = "#2c7a88";
-  ctx.lineWidth = 4;
+    // ===== ФОТО БЛОК =====
+    ctx.fillStyle = "#efefef";
+    ctx.strokeStyle = "#2c7a88";
+    ctx.lineWidth = 4;
 
-  ctx.fillRect(30, 80, 370, 530);
-  ctx.strokeRect(30, 80, 370, 530);
+    ctx.fillRect(30, 60, 375, 500);
+    ctx.strokeRect(30, 60, 375, 500);
 
-  // ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ =====
-  function block(x, y, w, h, color, text, tx, ty, size = 24) {
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
+    // ===== ВСТАВКА ПОЛЬЗОВАТЕЛЬСКОГО ФОТО =====
+    if (userPhoto) {
+      ctx.drawImage(userPhoto, 30, 60, 375, 500);
+    }
 
-    ctx.fillStyle = "#8fb6c0";
-    ctx.font = `bold ${size}px Arial`;
-    ctx.fillText(text, tx, ty);
+    // ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ =====
+    function block(x, y, w, h, color, text, tx, ty, size = 24) {
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, w, h);
+
+      ctx.fillStyle = "#8fb6c0";
+      ctx.font = `bold ${size}px Arial`;
+      ctx.fillText(text, tx, ty);
+    }
+
+    // ===== БЕЛЫЕ БЛОКИ =====
+    block(420, 60, 760, 75, "#ececec", "имя", 425, 80);
+    block(420, 140, 760, 75, "#ececec", "второе имя", 425, 160);
+    block(420, 220, 760, 75, "#ececec", "фамилия", 425, 240);
+
+    // ===== СЕРЫЙ БЛОК =====
+    ctx.fillStyle = "#7d8da1";
+    ctx.fillRect(420, 305, 760, 110);
+
+    ctx.fillStyle = "#9ec1c9";
+    ctx.font = "bold 24px Arial";
+    ctx.fillText("гендерный маркер", 430, 330);
+    ctx.fillText("дата регистрации", 690, 330);
+    ctx.fillText("дата выдачи", 950, 330);
+
+    // ===== НИЖНИЙ БЛОК =====
+    ctx.fillStyle = "#c9d9df";
+    ctx.fillRect(420, 420, 760, 200);
+
+    ctx.fillStyle = "#6f8a96";
+    ctx.font = "bold 28px Arial";
+    ctx.fillText("место регистрации", 480, 450);
+    ctx.fillText("место учёта", 870, 450);
+
+    // ===== НОМЕР СЧЁТА =====
+    ctx.fillStyle = "#ececec";
+    ctx.font = "bold 22px Arial";
+    ctx.fillText("номер", 65, 600);
+    ctx.fillText("счета:", 65, 620);
   }
 
-  // ===== БЕЛЫЕ БЛОКИ =====
-  block(420, 85, 750, 100, "#ececec", "имя", 430, 120);
-  block(420, 190, 750, 100, "#ececec", "второе имя", 430, 225);
-  block(420, 295, 750, 100, "#ececec", "фамилия", 430, 330);
+  // ===== СОБЫТИЕ ЗАГРУЗКИ ФАЙЛА =====
+  photoInput.addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  // ===== СЕРЫЙ БЛОК =====
-  ctx.fillStyle = "#7d8da1";
-  ctx.fillRect(420, 410, 750, 190);
+    // Проверка формата файла
+    if (!file.type.startsWith("image/")) {
+      alert("Пожалуйста, загрузите изображение!");
+      return;
+    }
 
-  ctx.fillStyle = "#9ec1c9";
-  ctx.font = "bold 24px Arial";
-  ctx.fillText("гендерный маркер", 435, 445);
-  ctx.fillText("место регистрации", 810, 445);
-  ctx.fillText("дата регистрации", 435, 515);
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      cropperImage.src = event.target.result;
+      
+      // ВАЖНО: Дождаться загрузки изображения перед инициализацией Cropper
+      cropperImage.onload = function () {
+        cropperContainer.style.display = "block";
 
-  // ===== НИЖНИЙ БЛОК =====
-  ctx.fillStyle = "#c9d9df";
-  ctx.fillRect(420, 610, 750, 140);
+        // Инициализация Cropper
+        if (cropper) {
+          cropper.destroy();
+        }
 
-  ctx.fillStyle = "#6f8a96";
-  ctx.font = "bold 28px Arial";
-  ctx.fillText("дата выдачи", 485, 645);
-  ctx.fillText("карта выдана", 860, 640);
+        cropper = new Cropper(cropperImage, {
+          aspectRatio: 0.75, // Пропорции 3:4
+          viewMode: 1,
+          autoCropArea: 1,
+          responsive: true,
+          restore: true,
+          guides: true,
+          center: true,
+          highlight: true,
+          cropBoxMovable: true,
+          cropBoxResizable: true,
+          toggleDragModeOnDblclick: true,
+          background: true,
+        });
+      };
+    };
+    reader.readAsDataURL(file);
+  });
 
-  // ===== НОМЕР СЧЁТА =====
-  ctx.fillStyle = "#ececec";
-  ctx.font = "bold 22px Arial";
-  ctx.fillText("номер", 65, 640);
-  ctx.fillText("счета:", 65, 665);
+  // ===== ПРИМЕНИТЬ ОБРЕЗАННОЕ ФОТО =====
+  applyCropBtn.addEventListener("click", function () {
+    if (!cropper) return;
+
+    const canvas2 = cropper.getCroppedCanvas({
+      maxWidth: 375,
+      maxHeight: 500,
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: "high",
+    });
+
+    // Преобразуем canvas в изображение
+    userPhoto = new Image();
+    
+    // ВАЖНО: Дождаться загрузки изображения перед отрисовкой
+    userPhoto.onload = function () {
+      drawCard();
+      
+      // Скрываем Cropper контейнер
+      cropperContainer.style.display = "none";
+      cropper.destroy();
+      cropper = null;
+    };
+    
+    userPhoto.src = canvas2.toDataURL();
+  });
+
+  // ===== ОТМЕНА =====
+  cancelCropBtn.addEventListener("click", function () {
+    if (cropper) {
+      cropper.destroy();
+      cropper = null;
+    }
+    cropperContainer.style.display = "none";
+    photoInput.value = "";
+  });
+
+  // ===== ПЕРВОНАЧАЛЬНАЯ ОТРИСОВКА =====
+  drawCard();
 </script>
 
 <style>
+  .editor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
 
   canvas {
     display: block;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
   }
 
-  input {
-    margin: 10px;
-    padding: 8px;
+  /* ===== УПРАВЛЕНИЕ ФОТО ===== */
+  .photo-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  #photoInput {
+    padding: 10px;
+    border: 2px solid #1d1dca;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  #photoInput::file-selector-button {
+    background: #2442c7;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  #photoInput::file-selector-button:hover {
+    background: #1d1dca;
+  }
+
+  /* ===== CROPPER КОНТЕЙНЕР ===== */
+  .cropper-container {
+    background: white;
+    border: 2px solid #2c7a88;
+    border-radius: 8px;
+    padding: 15px;
+    max-width: 600px;
+  }
+
+  #cropperImage {
+    max-width: 100%;
+    max-height: 400px;
+  }
+
+  .cropper-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
   }
 
   button {
@@ -105,9 +277,26 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
   }
 
   button:hover {
     background: #45a049;
   }
+
+  #cancelCropBtn {
+    background: #f44336;
+  }
+
+  #cancelCropBtn:hover {
+    background: #da190b;
+  }
+
+  input {
+    margin: 10px;
+    padding: 8px;
+  }
 </style>
+
+
