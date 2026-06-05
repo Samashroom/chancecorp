@@ -3,8 +3,9 @@
 ---
 
 <meta charset="UTF-8" />
-<link href="https://cdn.jsdelivr.net/npm/cropperjs@2.0.0/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/cropperjs@2.0.0/dist/cropper.min.js"></script>
+<!-- Use stable Cropper.js v1.5.13 -->
+<link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 
 <div class="editor">
   <!-- УПРАВЛЕНИЕ ФОТО -->
@@ -24,6 +25,9 @@
 </div>
 
 <script>
+  console.log('ChanceID page script loaded');
+  console.log('Cropper global:', typeof Cropper);
+
   const canvas = document.getElementById("cardCanvas");
   const ctx = canvas.getContext("2d");
   const photoInput = document.getElementById("photoInput");
@@ -39,8 +43,8 @@
   // ===== ВЫСОКОЕ РАЗРЕШЕНИЕ =====
   const scale = 1;
 
-  canvas.width = 1200 * scale;
-  canvas.height = 640 * scale;
+  canvas.width = 2400 * scale;
+  canvas.height = 1280 * scale;
 
   ctx.scale(scale, scale);
 
@@ -48,36 +52,36 @@
   function drawCard() {
     // ===== ФОН =====
     ctx.fillStyle = "#c0c0c0";
-    ctx.fillRect(0, 0, 1200, 640);
+    ctx.fillRect(0, 0, 2400, 1280);
 
     // ===== СИНЯЯ ПОЛОСА СЛЕВА =====
     ctx.fillStyle = "#1d1dca";
-    ctx.fillRect(0, 0, 60, 640);
+    ctx.fillRect(0, 0, 120, 1280);
 
     // ===== ЖЁЛТАЯ ПОЛОСА СВЕРХУ =====
     ctx.fillStyle = "#f3e600";
-    ctx.fillRect(60, 0, 1140, 45);
+    ctx.fillRect(120, 0, 2280, 90);
 
     // ===== ЛОГО =====
     ctx.fillStyle = "#2442c7";
-    ctx.font = "bold 34px Arial";
-    ctx.fillText("CHANCE id", 990, 34);
+    ctx.font = "bold 68px Arial";
+    ctx.fillText("CHANCE id", 1980, 68);
 
     // ===== ФОТО БЛОК =====
     ctx.fillStyle = "#efefef";
     ctx.strokeStyle = "#2c7a88";
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 8;
 
-    ctx.fillRect(30, 60, 375, 500);
-    ctx.strokeRect(30, 60, 375, 500);
+    ctx.fillRect(60, 120, 750, 1000);
+    ctx.strokeRect(60, 120, 750, 1000);
 
     // ===== ВСТАВКА ПОЛЬЗОВАТЕЛЬСКОГО ФОТО =====
     if (userPhoto) {
-      ctx.drawImage(userPhoto, 30, 60, 375, 500);
+      ctx.drawImage(userPhoto, 60, 120, 750, 1000);
     }
 
     // ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ =====
-    function block(x, y, w, h, color, text, tx, ty, size = 24) {
+    function block(x, y, w, h, color, text, tx, ty, size = 48) {
       ctx.fillStyle = color;
       ctx.fillRect(x, y, w, h);
 
@@ -87,34 +91,34 @@
     }
 
     // ===== БЕЛЫЕ БЛОКИ =====
-    block(420, 60, 760, 75, "#ececec", "имя", 425, 80);
-    block(420, 140, 760, 75, "#ececec", "второе имя", 425, 160);
-    block(420, 220, 760, 75, "#ececec", "фамилия", 425, 240);
+    block(840, 120, 1520, 150, "#ececec", "имя", 850, 160);
+    block(840, 280, 1520, 150, "#ececec", "второе имя", 850, 320);
+    block(840, 440, 1520, 150, "#ececec", "фамилия", 850, 480);
 
     // ===== СЕРЫЙ БЛОК =====
     ctx.fillStyle = "#7d8da1";
-    ctx.fillRect(420, 305, 760, 110);
+    ctx.fillRect(840, 610, 1520, 220);
 
     ctx.fillStyle = "#9ec1c9";
-    ctx.font = "bold 24px Arial";
-    ctx.fillText("гендерный маркер", 430, 330);
-    ctx.fillText("дата регистрации", 690, 330);
-    ctx.fillText("дата выдачи", 950, 330);
+    ctx.font = "bold 48px Arial";
+    ctx.fillText("гендерный маркер", 860, 660);
+    ctx.fillText("дата регистрации", 1380, 660);
+    ctx.fillText("дата выдачи", 1900, 660);
 
     // ===== НИЖНИЙ БЛОК =====
     ctx.fillStyle = "#c9d9df";
-    ctx.fillRect(420, 420, 760, 200);
+    ctx.fillRect(840, 840, 1520, 400);
 
     ctx.fillStyle = "#6f8a96";
-    ctx.font = "bold 28px Arial";
-    ctx.fillText("место регистрации", 480, 450);
-    ctx.fillText("место учёта", 870, 450);
+    ctx.font = "bold 56px Arial";
+    ctx.fillText("место регистрации", 960, 900);
+    ctx.fillText("место учёта", 1740, 900);
 
     // ===== НОМЕР СЧЁТА =====
     ctx.fillStyle = "#ececec";
-    ctx.font = "bold 22px Arial";
-    ctx.fillText("номер", 65, 600);
-    ctx.fillText("счета:", 65, 620);
+    ctx.font = "bold 44px Arial";
+    ctx.fillText("номер", 130, 1200);
+    ctx.fillText("счета:", 130, 1240);
   }
 
   // ===== СОБЫТИЕ ЗАГРУЗКИ ФАЙЛА =====
@@ -165,8 +169,8 @@
     if (!cropper) return;
 
     const canvas2 = cropper.getCroppedCanvas({
-      maxWidth: 375,
-      maxHeight: 500,
+      maxWidth: 750,
+      maxHeight: 1000,
       imageSmoothingEnabled: true,
       imageSmoothingQuality: "high",
     });
