@@ -6,6 +6,8 @@
 <!-- Use stable Cropper.js v1.5.13 -->
 <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+<!-- Arial Narrow web font for Android and other systems -->
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/arial-narrow" />
 <!-- jsPDF for PDF export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -94,7 +96,7 @@
 
     // ===== ЛОГО =====
     ctx.fillStyle = "#2442c7";
-    ctx.font = "bold 68px Arial";
+    ctx.font = "bold 68px 'Arial Narrow', Arial, sans-serif";
     ctx.fillText("CHANCE id", 1980, 68);
 
     // ===== ФОТО БЛОК =====
@@ -130,7 +132,7 @@
     ctx.fillRect(840, 610, 1520, 220);
 
     ctx.fillStyle = "#9ec1c9";
-    ctx.font = "bold 48px Arial";
+    ctx.font = "bold 48px 'Arial Narrow', Arial, sans-serif";
     ctx.fillText("гендерный маркер", 860, 660);
     ctx.fillText("дата регистрации", 1380, 660);
     ctx.fillText("дата выдачи", 1900, 660);
@@ -140,13 +142,13 @@
     ctx.fillRect(840, 840, 1520, 400);
 
     ctx.fillStyle = "#6f8a96";
-    ctx.font = "bold 56px Arial";
+    ctx.font = "bold 56px 'Arial Narrow', Arial, sans-serif";
     ctx.fillText("место регистрации", 960, 900);
     ctx.fillText("место учёта", 1740, 900);
 
     // ===== НОМЕР СЧЁТА =====
     ctx.fillStyle = "#ececec";
-    ctx.font = "bold 44px Arial";
+    ctx.font = "bold 44px 'Arial Narrow', Arial, sans-serif";
     ctx.fillText("номер", 130, 1200);
     ctx.fillText("счета:", 130, 1240);
 
@@ -341,6 +343,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
+    font-family: 'Arial Narrow', Arial, sans-serif;
   }
 
   #photoInput {
@@ -349,6 +352,7 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
+    font-family: 'Arial Narrow', Arial, sans-serif;
   }
 
   #photoInput::file-selector-button {
@@ -429,6 +433,7 @@
     padding: 12px 20px;
     font-size: 16px;
     border-radius: 6px;
+    font-family: 'Arial Narrow', Arial, sans-serif;
   }
 
   .download-controls button:hover {
