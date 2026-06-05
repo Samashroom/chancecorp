@@ -6,6 +6,8 @@
 <!-- Use stable Cropper.js v1.5.13 -->
 <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+<!-- jsPDF for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <div class="editor">
   <!-- УПРАВЛЕНИЕ ФОТО --> 
@@ -32,6 +34,13 @@
 
   <!-- CANVAS КАРТОЧКА -->
   <canvas id="cardCanvas"></canvas>
+
+  <!-- КНОПКИ СКАЧИВАНИЯ -->
+  <div class="download-controls">
+    <button id="downloadPngBtn">📥 Скачать PNG</button>
+    <button id="downloadJpgBtn">📥 Скачать JPG</button>
+    <button id="downloadPdfBtn">📥 Скачать PDF</button>
+  </div>
 </div>
 
 <script>
@@ -45,6 +54,9 @@
   const cropperImage = document.getElementById("cropperImage");
   const applyCropBtn = document.getElementById("applyCropBtn");
   const cancelCropBtn = document.getElementById("cancelCropBtn");
+  const downloadPngBtn = document.getElementById("downloadPngBtn");
+  const downloadJpgBtn = document.getElementById("downloadJpgBtn");
+  const downloadPdfBtn = document.getElementById("downloadPdfBtn");
   const line1Input = document.getElementById("line1Input");
   const line2Input = document.getElementById("line2Input");
   const line3Input = document.getElementById("line3Input");
@@ -153,7 +165,7 @@
     ctx.fillText(v1, 860, 240);
     ctx.fillText(v2, 860, 400);
     ctx.fillText(v3, 860, 560);
-    ctx.fillText(c1, 860, 760);
+    ctx.fillText(c1, 1060, 760);
     ctx.fillText(d1, 1440, 760);
     ctx.fillText(d2, 1900, 760);
     ctx.fillText(t1, 900, 1000);
@@ -244,6 +256,50 @@
   [line1Input, line2Input, line3Input, choice1Input, date1Input, date2Input, three1Input, three2Input].forEach(el => {
     if (el) el.addEventListener('input', drawCard);
   });
+
+  // ===== ФУНКЦИИ СКАЧИВАНИЯ =====
+  function downloadImage(format) {
+    const link = document.createElement('a');
+    const timestamp = new Date().toISOString().slice(0, 10);
+    const name = `CHANCE_id_${timestamp}`;
+
+    if (format === 'png') {
+      link.href = canvas.toDataURL('image/png');
+      link.download = name + '.png';
+    } else if (format === 'jpg') {
+      link.href = canvas.toDataURL('image/jpeg', 0.95);
+      link.download = name + '.jpg';
+    }
+
+    link.click();
+  }
+
+  function downloadPDF() {
+    const timestamp = new Date().toISOString().slice(0, 10);
+    const filename = `CHANCE_id_${timestamp}.pdf`;
+    
+    // Get canvas as image data
+    const imgData = canvas.toDataURL('image/png');
+    
+    // Create PDF with landscape orientation
+    const { jsPDF } = window;
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'px',
+      format: [2400, 1280]
+    });
+    
+    // Add image to PDF
+    pdf.addImage(imgData, 'PNG', 0, 0, 2400, 1280);
+    
+    // Save PDF
+    pdf.save(filename);
+  }
+
+  // ===== ОБРАБОТЧИКИ КНОПОК СКАЧИВАНИЯ =====
+  if (downloadPngBtn) downloadPngBtn.addEventListener('click', () => downloadImage('png'));
+  if (downloadJpgBtn) downloadJpgBtn.addEventListener('click', () => downloadImage('jpg'));
+  if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadPDF);
 
   // ===== ПЕРВОНАЧАЛЬНАЯ ОТРИСОВКА =====
   drawCard();
@@ -358,6 +414,25 @@
   input {
     margin: 10px;
     padding: 8px;
+  }
+
+  /* ===== DOWNLOAD CONTROLS ===== */
+  .download-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .download-controls button {
+    background: #2196f3;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+
+  .download-controls button:hover {
+    background: #0b7dda;
   }
 </style>
 
