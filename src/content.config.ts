@@ -38,10 +38,19 @@ const met = defineCollection({
     image: z.string(),
   }),
 });
+const wiki = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/wiki" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    image: z.string(),
+  }),
+});
 
 export const collections = {
   destinations: destinations,
   ambassadors: ambassadors,
   ads: ads,
-  met: met
+  met: met,
+  wiki: wiki,
 };

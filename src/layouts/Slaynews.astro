@@ -1,0 +1,40 @@
+---
+---
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Slaynews</title>
+  </head>
+  <body>
+    <article class="container">
+
+    <slot />
+    </article>
+  </body>
+</html>
+<style>
+  body {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+  }
+  .container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    padding: 20px;
+    width: 70%;
+    min-width: 750px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
