@@ -25,6 +25,7 @@ function resolveHtmlImageUrls(value) {
 
 export default function remarkResolveContentImages() {
   return (tree) => {
+    console.error('[remark-resolve-content-images] plugin run');
     const visitNode = (node) => {
       if (!node || typeof node !== 'object') return;
       if (node.type === 'image' && typeof node.url === 'string') {
