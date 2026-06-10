@@ -27,14 +27,64 @@
   .container {
     margin-top: 10px;
     margin-bottom: 10px;
-    border-radius: 10px 10px 0px 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: fit-content;
     padding: 20px;
-    width: 70%;
+    width: 90%;
     min-width: 750px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
+
+  .content-markdown {
+    overflow-x: auto;
+  }
+
+  :global(.content-markdown img) {
+    display: block;
+    margin: 1.5rem auto;
+    max-width: 100%;
+    max-height: 70vh;
+  }
+
+  .content-markdown :global(table) {
+    display: table;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .content-markdown :global(thead),
+  .content-markdown :global(tbody) {
+    display: table-header-group;
+    display: table-row-group;
+  }
+
+  .content-markdown :global(tr) {
+    display: table-row;
+  }
+
+  .content-markdown :global(th),
+  .content-markdown :global(td) {
+    display: table-cell;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    text-align: left;
+    vertical-align: top;
+    white-space: normal;
+  }
+
+  .content-markdown :global(th) {
+    background-color: rgba(255, 255, 255, 0.95);
+    font-weight: 700;
+  }
+
+  .content-markdown :global(tr:nth-child(even)) {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .content-markdown :global(tbody tr:last-child td) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+  }
+  
