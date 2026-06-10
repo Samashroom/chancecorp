@@ -1,3 +1,4 @@
+console.error('[remark-resolve-content-images] module imported');
 const contentImages = import.meta.glob('./assets/**/*.{png,jpg,jpeg,svg}', {
   eager: true,
   as: 'url',
