@@ -4,15 +4,21 @@
 
 <meta charset="UTF-8" />
 <!-- Use stable Cropper.js v1.5.13 -->
-<link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+<link
+  href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"
+></script>
 <!-- Arial Narrow web font for Android and other systems -->
 <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/arial-narrow" />
 <!-- jsPDF for PDF export -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+></script>
 
 <div class="editor">
-  <!-- УПРАВЛЕНИЕ ФОТО --> 
+  <!-- УПРАВЛЕНИЕ ФОТО -->
   <div class="photo-controls">
     <input type="file" id="photoInput" accept="image/*" />
     <div class="text-controls">
@@ -25,10 +31,33 @@
         <option value="Ж">Женский</option>
         <option value="Х">Другой</option>
       </select>
-      <input type="text" id="date1Input" placeholder="__.__.____" maxlength="10" inputmode="text" autocomplete="off" />
-      <input type="text" id="date2Input" placeholder="__.__.____" maxlength="10" inputmode="text" autocomplete="off" />
-      <input type="text" id="three1Input" placeholder="Место регистрации" />
+      <input
+        type="text"
+        id="date1Input"
+        placeholder="__.__.____"
+        maxlength="10"
+        inputmode="text"
+        autocomplete="off"
+      />
+      <input
+        type="text"
+        id="date2Input"
+        placeholder="__.__.____"
+        maxlength="10"
+        inputmode="text"
+        autocomplete="off"
+      />
+      <p>
+      Место регистрации
+      <select id="three1Input">
+        <option value=""></option>
+        <option value="Полис">Полис</option>
+        <option value="Сити">Сити</option>
+      </select>
+      <p>
+      Место выдачи
       <input type="text" id="three2Input" placeholder="Место выдачи карты" />
+      </p>
     </div>
     <div id="cropperContainer" class="cropper-container" style="display: none;">
       <img id="cropperImage" src="" />
@@ -51,8 +80,8 @@
 </div>
 
 <script>
-  console.log('ChanceID page script loaded');
-  console.log('Cropper global:', typeof Cropper);
+  console.log("ChanceID page script loaded");
+  console.log("Cropper global:", typeof Cropper);
 
   const canvas = document.getElementById("cardCanvas");
   const ctx = canvas.getContext("2d");
@@ -143,7 +172,7 @@
     ctx.fillText("дата выдачи", 1900, 660);
 
     // ===== НИЖНИЙ БЛОК =====
-    ctx.fillStyle = "#c9d9df";
+    ctx.fillStyle = "#d9eaf1";
     ctx.fillRect(840, 840, 1520, 400);
 
     ctx.fillStyle = "#6f8a96";
@@ -157,19 +186,19 @@
     ctx.fillText("номер", 130, 1200);
     ctx.fillText("счета:", 130, 1240);
 
-        // ===== ЗАПОЛНЕНИЕ АЙДИ =====
-    ctx.fillStyle = "#0000c0";
+    // ===== ЗАПОЛНЕНИЕ АЙДИ =====
+    ctx.fillStyle = "#14586b";
     ctx.font = "bold 80px 'Arial Narrow'";
-    const v1 = (line1Input && line1Input.value) ? line1Input.value : "";
-    const v2 = (line2Input && line2Input.value) ? line2Input.value : "";
-    const v3 = (line3Input && line3Input.value) ? line3Input.value : "";
-    const c1 = (choice1Input && choice1Input.value) ? choice1Input.value : "";
-    const d1raw = (date1Input && date1Input.value) ? date1Input.value : "";
-    const d2raw = (date2Input && date2Input.value) ? date2Input.value : "";
+    const v1 = line1Input && line1Input.value ? line1Input.value : "";
+    const v2 = line2Input && line2Input.value ? line2Input.value : "";
+    const v3 = line3Input && line3Input.value ? line3Input.value : "";
+    const c1 = choice1Input && choice1Input.value ? choice1Input.value : "";
+    const d1raw = date1Input && date1Input.value ? date1Input.value : "";
+    const d2raw = date2Input && date2Input.value ? date2Input.value : "";
     const d1 = formatDateForCanvas(d1raw);
     const d2 = formatDateForCanvas(d2raw);
-    const t1 = (three1Input && three1Input.value) ? three1Input.value : "";
-    const t2 = (three2Input && three2Input.value) ? three2Input.value : "";
+    const t1 = three1Input && three1Input.value ? three1Input.value : "";
+    const t2 = three2Input && three2Input.value ? three2Input.value : "";
 
     ctx.fillText(v1, 860, 240);
     ctx.fillText(v2, 860, 400);
@@ -195,7 +224,7 @@
     const reader = new FileReader();
     reader.onload = function (event) {
       cropperImage.src = event.target.result;
-      
+
       // ВАЖНО: Дождаться загрузки изображения перед инициализацией Cropper
       cropperImage.onload = function () {
         cropperContainer.style.display = "block";
@@ -237,17 +266,17 @@
 
     // Преобразуем canvas в изображение
     userPhoto = new Image();
-    
+
     // ВАЖНО: Дождаться загрузки изображения перед отрисовкой
     userPhoto.onload = function () {
       drawCard();
-      
+
       // Скрываем Cropper контейнер
       cropperContainer.style.display = "none";
       cropper.destroy();
       cropper = null;
     };
-    
+
     userPhoto.src = canvas2.toDataURL();
   });
 
@@ -262,37 +291,45 @@
   });
 
   // Re-draw when inputs change; use change event for select
-  [line1Input, line2Input, line3Input, date1Input, date2Input, three1Input, three2Input].forEach(el => {
-    if (el) el.addEventListener('input', drawCard);
+  [
+    line1Input,
+    line2Input,
+    line3Input,
+    date1Input,
+    date2Input,
+    three1Input,
+    three2Input,
+  ].forEach((el) => {
+    if (el) el.addEventListener("input", drawCard);
   });
-  if (choice1Input) choice1Input.addEventListener('change', drawCard);
+  if (choice1Input) choice1Input.addEventListener("change", drawCard);
 
   // ===== МАСКА ДЛЯ ПОЛЕЙ ДАТ (raw без точек) =====
   function formatDateForCanvas(raw) {
-    const r = (raw || '').replace(/\./g, '');
-    if (!r) return '';
+    const r = (raw || "").replace(/\./g, "");
+    if (!r) return "";
     const a = r.slice(0, 2);
     const b = r.slice(2, 4);
     const c = r.slice(4, 8);
     let out = a;
-    if (b) out += '.' + b;
-    if (c) out += '.' + c;
+    if (b) out += "." + b;
+    if (c) out += "." + c;
     return out;
   }
 
   function formatDateDisplay(raw) {
-    const r = raw.replace(/\./g, '');
+    const r = raw.replace(/\./g, "");
     const a = r.slice(0, 2);
     const b = r.slice(2, 4);
     const c = r.slice(4, 8);
     let out = a;
-    if (b) out += '.' + b;
-    if (c) out += '.' + c;
+    if (b) out += "." + b;
+    if (c) out += "." + c;
     return out;
   }
 
   function getRawDateValue(value) {
-    return (value || '').replace(/\./g, '');
+    return (value || "").replace(/\./g, "");
   }
 
   function displayCursorPos(rawPos) {
@@ -304,33 +341,52 @@
   function attachDateMask(el) {
     if (!el) return;
 
-    el.addEventListener('input', function () {
-      const rawBefore = getRawDateValue(el.value.slice(0, el.selectionStart || 0));
-      const filtered = getRawDateValue(el.value).replace(/[^0-9A-Za-z]/g, '').toUpperCase().slice(0, 8);
+    el.addEventListener("input", function () {
+      const rawBefore = getRawDateValue(
+        el.value.slice(0, el.selectionStart || 0),
+      );
+      const filtered = getRawDateValue(el.value)
+        .replace(/[^0-9A-Za-z]/g, "")
+        .toUpperCase()
+        .slice(0, 8);
       const formatted = formatDateDisplay(filtered);
       el.value = formatted;
-      const cursorPosition = displayCursorPos(Math.min(rawBefore.length, filtered.length));
+      const cursorPosition = displayCursorPos(
+        Math.min(rawBefore.length, filtered.length),
+      );
       el.setSelectionRange(cursorPosition, cursorPosition);
       drawCard();
     });
 
-    el.addEventListener('keydown', function (e) {
-      const nav = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
+    el.addEventListener("keydown", function (e) {
+      const nav = [
+        "Backspace",
+        "Delete",
+        "ArrowLeft",
+        "ArrowRight",
+        "Tab",
+        "Home",
+        "End",
+      ];
       if (e.ctrlKey || e.metaKey || nav.includes(e.key)) return;
       if (e.key.length === 1 && !/^[0-9A-Za-z]$/.test(e.key)) {
         e.preventDefault();
       }
-      const raw = getRawDateValue(el.value).replace(/[^0-9A-Za-z]/g, '');
+      const raw = getRawDateValue(el.value).replace(/[^0-9A-Za-z]/g, "");
       if (raw.length >= 8 && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
       }
     });
 
-    el.addEventListener('paste', function (e) {
+    el.addEventListener("paste", function (e) {
       e.preventDefault();
-      const paste = (e.clipboardData || window.clipboardData).getData('text') || '';
+      const paste =
+        (e.clipboardData || window.clipboardData).getData("text") || "";
       const raw = getRawDateValue(el.value) + paste;
-      const combined = raw.replace(/[^0-9A-Za-z]/g, '').toUpperCase().slice(0, 8);
+      const combined = raw
+        .replace(/[^0-9A-Za-z]/g, "")
+        .toUpperCase()
+        .slice(0, 8);
       el.value = formatDateDisplay(combined);
       drawCard();
     });
@@ -341,16 +397,16 @@
 
   // ===== ФУНКЦИИ СКАЧИВАНИЯ =====
   function downloadImage(format) {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     const timestamp = new Date().toISOString().slice(0, 10);
     const name = `CHANCE_id_${timestamp}`;
 
-    if (format === 'png') {
-      link.href = canvas.toDataURL('image/png');
-      link.download = name + '.png';
-    } else if (format === 'jpg') {
-      link.href = canvas.toDataURL('image/jpeg', 0.95);
-      link.download = name + '.jpg';
+    if (format === "png") {
+      link.href = canvas.toDataURL("image/png");
+      link.download = name + ".png";
+    } else if (format === "jpg") {
+      link.href = canvas.toDataURL("image/jpeg", 0.95);
+      link.download = name + ".jpg";
     }
 
     link.click();
@@ -359,29 +415,31 @@
   function downloadPDF() {
     const timestamp = new Date().toISOString().slice(0, 10);
     const filename = `CHANCE_id_${timestamp}.pdf`;
-    
+
     // Get canvas as image data
-    const imgData = canvas.toDataURL('image/png');
-    
+    const imgData = canvas.toDataURL("image/png");
+
     // Create PDF with landscape orientation
     const { jsPDF } = window;
     const pdf = new jsPDF({
-      orientation: 'landscape',
-      unit: 'px',
-      format: [2400, 1280]
+      orientation: "landscape",
+      unit: "px",
+      format: [2400, 1280],
     });
-    
+
     // Add image to PDF
-    pdf.addImage(imgData, 'PNG', 0, 0, 2400, 1280);
-    
+    pdf.addImage(imgData, "PNG", 0, 0, 2400, 1280);
+
     // Save PDF
     pdf.save(filename);
   }
 
   // ===== ОБРАБОТЧИКИ КНОПОК СКАЧИВАНИЯ =====
-  if (downloadPngBtn) downloadPngBtn.addEventListener('click', () => downloadImage('png'));
-  if (downloadJpgBtn) downloadJpgBtn.addEventListener('click', () => downloadImage('jpg'));
-  if (downloadPdfBtn) downloadPdfBtn.addEventListener('click', downloadPDF);
+  if (downloadPngBtn)
+    downloadPngBtn.addEventListener("click", () => downloadImage("png"));
+  if (downloadJpgBtn)
+    downloadJpgBtn.addEventListener("click", () => downloadImage("jpg"));
+  if (downloadPdfBtn) downloadPdfBtn.addEventListener("click", downloadPDF);
 
   // ===== ПЕРВОНАЧАЛЬНАЯ ОТРИСОВКА =====
   drawCard();
@@ -418,12 +476,13 @@
     align-items: center;
   }
 
-  .text-controls input, .text-controls select {
+  .text-controls input,
+  .text-controls select {
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-family: "Arial Narrow", Arial, sans-serif;
   }
 
   #photoInput {
@@ -432,7 +491,7 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
-    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-family: "Arial Narrow", Arial, sans-serif;
   }
 
   #photoInput::file-selector-button {
@@ -495,7 +554,8 @@
     background: #da190b;
   }
 
-  input, select {
+  input,
+  select {
     margin: 10px;
     padding: 8px;
   }
@@ -513,7 +573,7 @@
     padding: 12px 20px;
     font-size: 16px;
     border-radius: 6px;
-    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-family: "Arial Narrow", Arial, sans-serif;
   }
 
   .download-controls button:hover {
@@ -581,5 +641,3 @@
     }
   }
 </style>
-
-
