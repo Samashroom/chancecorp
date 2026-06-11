@@ -19,9 +19,14 @@
       <input type="text" id="line1Input" placeholder="Имя" />
       <input type="text" id="line2Input" placeholder="Второе имя (если есть)" />
       <input type="text" id="line3Input" placeholder="Фамилия" />
-      <input type="text" id="choice1Input" placeholder="Гендерный маркер" />
-      <input type="text" id="date1Input" placeholder="Дата регистрации (рождения)" />
-      <input type="text" id="date2Input" placeholder="Дата выдачи карты" />
+      <select id="choice1Input">
+        <option value=""></option>
+        <option value="М">Мужской</option>
+        <option value="Ж">Женский</option>
+        <option value="Х">Другой</option>
+      </select>
+      <input type="text" id="date1Input" placeholder="__.__.____" maxlength="10" inputmode="text" autocomplete="off" />
+      <input type="text" id="date2Input" placeholder="__.__.____" maxlength="10" inputmode="text" autocomplete="off" />
       <input type="text" id="three1Input" placeholder="Место регистрации" />
       <input type="text" id="three2Input" placeholder="Место выдачи карты" />
     </div>
@@ -159,17 +164,19 @@
     const v2 = (line2Input && line2Input.value) ? line2Input.value : "";
     const v3 = (line3Input && line3Input.value) ? line3Input.value : "";
     const c1 = (choice1Input && choice1Input.value) ? choice1Input.value : "";
-    const d1 = (date1Input && date1Input.value) ? date1Input.value : "";
-    const d2 = (date2Input && date2Input.value) ? date2Input.value : "";
+    const d1raw = (date1Input && date1Input.value) ? date1Input.value : "";
+    const d2raw = (date2Input && date2Input.value) ? date2Input.value : "";
+    const d1 = formatDateForCanvas(d1raw);
+    const d2 = formatDateForCanvas(d2raw);
     const t1 = (three1Input && three1Input.value) ? three1Input.value : "";
     const t2 = (three2Input && three2Input.value) ? three2Input.value : "";
 
     ctx.fillText(v1, 860, 240);
     ctx.fillText(v2, 860, 400);
     ctx.fillText(v3, 860, 560);
-    ctx.fillText(c1, 1060, 760);
-    ctx.fillText(d1, 1440, 760);
-    ctx.fillText(d2, 1900, 760);
+    ctx.fillText(c1, 1000, 760);
+    ctx.fillText(d1, 1355, 760);
+    ctx.fillText(d2, 1850, 760);
     ctx.fillText(t1, 900, 1000);
     ctx.fillText(t2, 1600, 1000);
   }
@@ -254,10 +261,83 @@
     photoInput.value = "";
   });
 
-  // Re-draw when any input changes
-  [line1Input, line2Input, line3Input, choice1Input, date1Input, date2Input, three1Input, three2Input].forEach(el => {
+  // Re-draw when inputs change; use change event for select
+  [line1Input, line2Input, line3Input, date1Input, date2Input, three1Input, three2Input].forEach(el => {
     if (el) el.addEventListener('input', drawCard);
   });
+  if (choice1Input) choice1Input.addEventListener('change', drawCard);
+
+  // ===== МАСКА ДЛЯ ПОЛЕЙ ДАТ (raw без точек) =====
+  function formatDateForCanvas(raw) {
+    const r = (raw || '').replace(/\./g, '');
+    if (!r) return '';
+    const a = r.slice(0, 2);
+    const b = r.slice(2, 4);
+    const c = r.slice(4, 8);
+    let out = a;
+    if (b) out += '.' + b;
+    if (c) out += '.' + c;
+    return out;
+  }
+
+  function formatDateDisplay(raw) {
+    const r = raw.replace(/\./g, '');
+    const a = r.slice(0, 2);
+    const b = r.slice(2, 4);
+    const c = r.slice(4, 8);
+    let out = a;
+    if (b) out += '.' + b;
+    if (c) out += '.' + c;
+    return out;
+  }
+
+  function getRawDateValue(value) {
+    return (value || '').replace(/\./g, '');
+  }
+
+  function displayCursorPos(rawPos) {
+    if (rawPos <= 2) return rawPos;
+    if (rawPos <= 4) return rawPos + 1;
+    return rawPos + 2;
+  }
+
+  function attachDateMask(el) {
+    if (!el) return;
+
+    el.addEventListener('input', function () {
+      const rawBefore = getRawDateValue(el.value.slice(0, el.selectionStart || 0));
+      const filtered = getRawDateValue(el.value).replace(/[^0-9A-Za-z]/g, '').toUpperCase().slice(0, 8);
+      const formatted = formatDateDisplay(filtered);
+      el.value = formatted;
+      const cursorPosition = displayCursorPos(Math.min(rawBefore.length, filtered.length));
+      el.setSelectionRange(cursorPosition, cursorPosition);
+      drawCard();
+    });
+
+    el.addEventListener('keydown', function (e) {
+      const nav = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
+      if (e.ctrlKey || e.metaKey || nav.includes(e.key)) return;
+      if (e.key.length === 1 && !/^[0-9A-Za-z]$/.test(e.key)) {
+        e.preventDefault();
+      }
+      const raw = getRawDateValue(el.value).replace(/[^0-9A-Za-z]/g, '');
+      if (raw.length >= 8 && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+      }
+    });
+
+    el.addEventListener('paste', function (e) {
+      e.preventDefault();
+      const paste = (e.clipboardData || window.clipboardData).getData('text') || '';
+      const raw = getRawDateValue(el.value) + paste;
+      const combined = raw.replace(/[^0-9A-Za-z]/g, '').toUpperCase().slice(0, 8);
+      el.value = formatDateDisplay(combined);
+      drawCard();
+    });
+  }
+
+  attachDateMask(date1Input);
+  attachDateMask(date2Input);
 
   // ===== ФУНКЦИИ СКАЧИВАНИЯ =====
   function downloadImage(format) {
@@ -338,7 +418,7 @@
     align-items: center;
   }
 
-  .text-controls input {
+  .text-controls input, .text-controls select {
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -415,7 +495,7 @@
     background: #da190b;
   }
 
-  input {
+  input, select {
     margin: 10px;
     padding: 8px;
   }
