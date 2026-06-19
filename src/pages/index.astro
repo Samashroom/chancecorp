@@ -17,12 +17,12 @@ import Logo from "../assets/logo.png";
 :global(html) {
     background: linear-gradient(
       to bottom,
-      #ff0000 0%, #ff0000 16.66%,
-      #ff7f00 16.66%, #ff7f00 33.32%,
-      #ffff00 33.32%, #ffff00 49.98%,
-      #00ff00 49.98%, #00ff00 66.64%,
-      #0000ff 66.64%, #0000ff 83.30%,
-      #8f00ff 83.30%, #8f00ff 100%
+      #af0000 0%, #af0000 16.66%,
+      #af7f00 16.66%, #af7f00 33.32%,
+      #afaf00 33.32%, #afaf00 49.98%,
+      #00af00 49.98%, #00af00 66.64%,
+      #0000af 66.64%, #0000af 83.30%,
+      #4f00af 83.30%, #4f00af 100%
     );
     color: white;
     font-family: "Arial", sans-serif;
@@ -31,18 +31,6 @@ import Logo from "../assets/logo.png";
     display: block;
     margin: 0 auto;
     height: 100vh;
-  }
-  @media (max-width: 600px) {
-    .logo {
-      width: 100vw;
-    }
-    h1 {
-      font-size: 4rem;
-    }
-    p {
-      font-size: 1.2rem;
-      max-width: 90%;
-    }
   }
   h1 {
     font-size: 8rem;
@@ -59,5 +47,19 @@ import Logo from "../assets/logo.png";
     max-width: 600px;
     margin: 2rem auto;
     margin-top: 0;
+  }
+  
+  @media (max-width: 600px) {
+    .logo {
+      width: 100vw;
+      height: auto;
+    }
+    h1 {
+      font-size: 3rem;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 90%;
+    }
   }
 </style>
