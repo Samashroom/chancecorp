@@ -14,77 +14,259 @@
   </body>
 </html>
 <style>
+  * {
+    box-sizing: border-box;
+  }
+
   body {
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
     margin: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: baseline;
+    padding: 0;
+    line-height: 1.6;
   }
   .container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: fit-content;
-    padding: 20px;
-    width: 90%;
-    min-width: 750px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
   }
 
   .content-markdown {
     overflow-x: auto;
   }
 
-  :global(.content-markdown img) {
-    display: block;
-    margin: 1.5rem auto;
-    max-width: 100%;
-    max-height: 70vh;
+  /* Текстовые элементы */
+  .content-markdown :global(h1),
+  .content-markdown :global(h2),
+  .content-markdown :global(h3),
+  .content-markdown :global(h4),
+  .content-markdown :global(h5),
+  .content-markdown :global(h6) {
+    line-height: 1.2;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #222;
+    font-weight: 600;
   }
 
+  .content-markdown :global(h1) {
+    font-size: 2em;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 0.3em;
+  }
+
+  .content-markdown :global(h2) {
+    font-size: 1.5em;
+  }
+
+  .content-markdown :global(h3) {
+    font-size: 1.25em;
+  }
+
+  .content-markdown :global(p) {
+    margin: 1em 0;
+    line-height: 1.8;
+    text-align: justify;
+  }
+
+  /* Изображения */
+  :global(.content-markdown img) {
+    display: block;
+    margin: 2rem auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  :global(img.article-image) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Таблицы */
   .content-markdown :global(table) {
-    display: table;
+    width: 100%;
     border-collapse: collapse;
+    margin: 2rem 0;
     font-size: 0.95rem;
   }
 
-  .content-markdown :global(thead),
-  .content-markdown :global(tbody) {
-    display: table-header-group;
-    display: table-row-group;
-  }
-
-  .content-markdown :global(tr) {
-    display: table-row;
+  .content-markdown :global(thead) {
+    background-color: #f8f9fa;
   }
 
   .content-markdown :global(th),
   .content-markdown :global(td) {
-    display: table-cell;
-    padding: 0.85rem 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.14);
+    padding: 1rem;
+    border: 1px solid #dee2e6;
     text-align: left;
-    vertical-align: top;
-    white-space: normal;
+    vertical-align: middle;
   }
 
   .content-markdown :global(th) {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: #f8f9fa;
     font-weight: 700;
+    color: #222;
   }
 
-  .content-markdown :global(tr:nth-child(even)) {
-    background-color: rgba(0, 0, 0, 0.03);
+  .content-markdown :global(tbody tr:nth-child(odd)) {
+    background-color: #fff;
   }
 
-  .content-markdown :global(tbody tr:last-child td) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+  .content-markdown :global(tbody tr:nth-child(even)) {
+    background-color: #f9f9f9;
+  }
+
+  .content-markdown :global(tbody tr:hover) {
+    background-color: #f0f0f0;
+  }
+  /* Списки */
+  .content-markdown :global(ul),
+  .content-markdown :global(ol) {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+  }
+
+  .content-markdown :global(li) {
+    margin: 0.5rem 0;
+    line-height: 1.8;
+  }
+
+  /* Цитаты */
+  .content-markdown :global(blockquote) {
+    margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid #007bff;
+    background-color: #f0f7ff;
+    font-style: italic;
+    color: #555;
+  }
+
+  /* Код */
+  .content-markdown :global(code) {
+    background-color: #f5f5f5;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+  }
+
+  .content-markdown :global(pre) {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .content-markdown :global(pre code) {
+    background-color: transparent;
+    padding: 0;
+    color: #333;
+  }
+
+  /* Ссылки */
+  .content-markdown :global(a) {
+    color: #007bff;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .content-markdown :global(a:hover) {
+    color: #0056b3;
+    border-bottom-color: #0056b3;
+  }
+
+  /* Горизонтальная линия */
+  .content-markdown :global(hr) {
+    margin: 2rem 0;
+    border: none;
+    border-top: 2px solid #e0e0e0;
+  }
+
+  /* Мобильная адаптивность */
+  @media (max-width: 768px) {
+    .container {
+      max-width: 100%;
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+
+    .content-markdown :global(h1) {
+      font-size: 1.5em;
+    }
+
+    .content-markdown :global(h2) {
+      font-size: 1.25em;
+    }
+
+    .content-markdown :global(h3) {
+      font-size: 1.1em;
+    }
+
+    .content-markdown :global(p) {
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    :global(.content-markdown img) {
+      margin: 1.5rem 0;
+    }
+
+    .content-markdown :global(table) {
+      font-size: 0.85rem;
+    }
+
+    .content-markdown :global(th),
+    .content-markdown :global(td) {
+      padding: 0.75rem 0.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 0;
+    }
+
+    .container {
+      margin: 0;
+      padding: 1rem;
+      border-radius: 0;
+    }
+
+    .content-markdown :global(h1) {
+      font-size: 1.3em;
+    }
+
+    .content-markdown :global(h2) {
+      font-size: 1.1em;
+    }
+
+    .content-markdown :global(h3) {
+      font-size: 1em;
+    }
+
+    .content-markdown :global(table) {
+      font-size: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .content-markdown :global(th),
+    .content-markdown :global(td) {
+      padding: 0.5rem;
+    }
+
+    .content-markdown :global(ul),
+    .content-markdown :global(ol) {
+      padding-left: 1.5rem;
+    }
   }
   
