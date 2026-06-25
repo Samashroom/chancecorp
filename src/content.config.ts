@@ -2,9 +2,11 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import remarkResolveContentImages from './remark-resolve-content-images.js';
+import rehypeExtractHeadings from './rehype-extract-headings.js';
 
 export const markdown = {
   remarkPlugins: [remarkResolveContentImages],
+  rehypePlugins: [rehypeExtractHeadings],
 };
 
 const destinations = defineCollection({

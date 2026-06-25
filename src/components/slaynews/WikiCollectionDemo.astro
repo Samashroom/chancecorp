@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { resolveContentImage } from '../lib/resolveContentImage';
+import { resolveContentImage } from '../../lib/resolveContentImage';
 
 const items = await getCollection('wiki');
 ---
@@ -40,7 +40,7 @@ const items = await getCollection('wiki');
 
   .card img {
     width: 100%;
-    height: 140px;
+    height: 350px;
     object-fit: cover;
     display: block;
   }
