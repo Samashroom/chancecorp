@@ -22,51 +22,75 @@
   <div class="photo-controls">
     <input type="file" id="photoInput" accept="image/*" />
     <div class="text-controls">
-      <input type="text" id="line1Input" placeholder="Имя" />
-      <input type="text" id="line2Input" placeholder="Второе имя (если есть)" />
-      <input type="text" id="line3Input" placeholder="Фамилия" />
-      <select id="choice1Input">
-        <option value=""></option>
-        <option value="М">Мужской</option>
-        <option value="Ж">Женский</option>
-        <option value="Х">Другой</option>
-      </select>
-      <select id="choice1Input">
-        <option value=""></option>
-        <option value="М">Мужской</option>
-        <option value="Ж">Женский</option>
-        <option value="Х">Другой</option>
-      </select>
-      <input
-        type="text"
-        id="date1Input"
-        placeholder="__.__.____"
-        maxlength="10"
-        inputmode="text"
-        autocomplete="off"
-      />
-      <input
-        type="text"
-        id="date2Input"
-        placeholder="__.__.____"
-        maxlength="10"
-        inputmode="text"
-        autocomplete="off"
-      />
       <p>
-      Место регистрации
-      <select id="three1Input">
-        <option value=""></option>
-        <option value="Полис">Полис</option>
-        <option value="Сити">Сити</option>
-      </select>
+        Первое имя:
+        <input type="text" id="line1Input" placeholder="Имя" />
+      </p>
       <p>
-      Место выдачи
-      <select id="three2Input">
-        <option value=""></option>
-        <option value="Полис">Полис</option>
-        <option value="Сити">Сити</option>
-      </select>
+        Второе имя/отчество/родовое имя (количество ограничено):
+        <input type="text" id="line2Input" placeholder="Второе имя" />
+      </p>
+      <p>
+        Фамилия:
+        <input type="text" id="line3Input" placeholder="Фамилия" />
+      </p>
+      <p>
+        Гендер:
+        <select id="choice1Input">
+          <option value=""></option>
+          <option value="М">Мужской</option>
+          <option value="Ж">Женский</option>
+          <option value="Х">Другой</option>
+        </select>
+      </p>
+
+      <p>
+        Дата регистрации:
+        <input
+          type="text"
+          id="date1Input"
+          placeholder="__.__.____"
+          maxlength="10"
+          inputmode="text"
+          autocomplete="off"
+        />
+      </p>
+      <p>
+        Дата выдачи:
+        <input
+          type="text"
+          id="date2Input"
+          placeholder="__.__.____"
+          maxlength="10"
+          inputmode="text"
+          autocomplete="off"
+        />
+      </p>
+      <p>
+        Место регистрации
+        <select>
+          <option value=""></option>
+          <option value="Полис">Полис</option>
+          <option value="Сити">Сити</option>
+        </select>
+        <select id="three1Input">
+          <option value=""></option>
+          <option value="Полис">Полис</option>
+          <option value="Сити">Сити</option>
+        </select>
+      </p>
+      <p>
+        Место выдачи
+        <select>
+          <option value=""></option>
+          <option value="Полис">Полис</option>
+          <option value="Сити">Сити</option>
+        </select>
+        <select id="three2Input">
+          <option value=""></option>
+          <option value="Полис">Полис</option>
+          <option value="Сити">Сити</option>
+        </select>
       </p>
     </div>
     <div id="cropperContainer" class="cropper-container" style="display: none;">
