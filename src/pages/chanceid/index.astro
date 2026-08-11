@@ -66,31 +66,63 @@
           autocomplete="off"
         />
       </p>
+      <p class="section-title">Место регистрации</p>
       <p>
-        Место регистрации
-        <select>
-          <option value=""></option>
-          <option value="Полис">Полис</option>
-          <option value="Сити">Сити</option>
-        </select>
-        <select id="three1Input">
+        <label for="placeRegLevel1">Тип</label>
+        <select id="placeRegLevel1">
           <option value=""></option>
           <option value="Полис">Полис</option>
           <option value="Сити">Сити</option>
         </select>
       </p>
+      <p class="nested-field hidden" id="placeRegLevel2Row">
+        <label for="placeRegLevel2">Район</label>
+        <select id="placeRegLevel2">
+          <option value=""></option>
+          <option value="Район 1">Район 1</option>
+          <option value="Район 2">Район 2</option>
+          <option value="own">Свой вариант</option>
+        </select>
+        <input id="placeRegLevel2Custom" class="custom-input hidden" type="text" placeholder="Свой вариант" />
+      </p>
+      <p class="nested-field hidden" id="placeRegLevel3Row">
+        <label for="placeRegLevel3">Уточнение</label>
+        <select id="placeRegLevel3">
+          <option value=""></option>
+          <option value="Уточнение 1">Уточнение 1</option>
+          <option value="Уточнение 2">Уточнение 2</option>
+          <option value="own">Свой вариант</option>
+        </select>
+        <input id="placeRegLevel3Custom" class="custom-input hidden" type="text" placeholder="Свой вариант" />
+      </p>
+      <p class="section-title">Место выдачи</p>
       <p>
-        Место выдачи
-        <select>
+        <label for="placeIssueLevel1">Тип</label>
+        <select id="placeIssueLevel1">
           <option value=""></option>
           <option value="Полис">Полис</option>
           <option value="Сити">Сити</option>
         </select>
-        <select id="three2Input">
+      </p>
+      <p class="nested-field hidden" id="placeIssueLevel2Row">
+        <label for="placeIssueLevel2">Район</label>
+        <select id="placeIssueLevel2">
           <option value=""></option>
-          <option value="Полис">Полис</option>
-          <option value="Сити">Сити</option>
+          <option value="Район 1">Район 1</option>
+          <option value="Район 2">Район 2</option>
+          <option value="own">Свой вариант</option>
         </select>
+        <input id="placeIssueLevel2Custom" class="custom-input hidden" type="text" placeholder="Свой вариант" />
+      </p>
+      <p class="nested-field hidden" id="placeIssueLevel3Row">
+        <label for="placeIssueLevel3">Уточнение</label>
+        <select id="placeIssueLevel3">
+          <option value=""></option>
+          <option value="Уточнение 1">Уточнение 1</option>
+          <option value="Уточнение 2">Уточнение 2</option>
+          <option value="own">Свой вариант</option>
+        </select>
+        <input id="placeIssueLevel3Custom" class="custom-input hidden" type="text" placeholder="Свой вариант" />
       </p>
     </div>
     <div id="cropperContainer" class="cropper-container" style="display: none;">
@@ -133,8 +165,20 @@
   const choice1Input = document.getElementById("choice1Input");
   const date1Input = document.getElementById("date1Input");
   const date2Input = document.getElementById("date2Input");
-  const three1Input = document.getElementById("three1Input");
-  const three2Input = document.getElementById("three2Input");
+  const placeRegLevel1 = document.getElementById("placeRegLevel1");
+  const placeRegLevel2 = document.getElementById("placeRegLevel2");
+  const placeRegLevel2Custom = document.getElementById("placeRegLevel2Custom");
+  const placeRegLevel3 = document.getElementById("placeRegLevel3");
+  const placeRegLevel3Custom = document.getElementById("placeRegLevel3Custom");
+  const placeRegLevel2Row = document.getElementById("placeRegLevel2Row");
+  const placeRegLevel3Row = document.getElementById("placeRegLevel3Row");
+  const placeIssueLevel1 = document.getElementById("placeIssueLevel1");
+  const placeIssueLevel2 = document.getElementById("placeIssueLevel2");
+  const placeIssueLevel2Custom = document.getElementById("placeIssueLevel2Custom");
+  const placeIssueLevel3 = document.getElementById("placeIssueLevel3");
+  const placeIssueLevel3Custom = document.getElementById("placeIssueLevel3Custom");
+  const placeIssueLevel2Row = document.getElementById("placeIssueLevel2Row");
+  const placeIssueLevel3Row = document.getElementById("placeIssueLevel3Row");
 
   // ===== ПЕРЕМЕННАЯ ДЛЯ ХРАНЕНИЯ ФОТО =====
   let userPhoto = null;
@@ -211,8 +255,8 @@
 
     ctx.fillStyle = "#6f8a96";
     ctx.font = "bold 56px 'Arial Narrow', Arial, sans-serif";
-    ctx.fillText("место регистрации", 960, 900);
-    ctx.fillText("место учёта", 1740, 900);
+    ctx.fillText("место регистрации", 920, 900);
+    ctx.fillText("место учёта", 920, 1080);
 
     // ===== НОМЕР СЧЁТА =====
     ctx.fillStyle = "#ececec";
@@ -231,8 +275,20 @@
     const d2raw = date2Input && date2Input.value ? date2Input.value : "";
     const d1 = formatDateForCanvas(d1raw);
     const d2 = formatDateForCanvas(d2raw);
-    const t1 = three1Input && three1Input.value ? three1Input.value : "";
-    const t2 = three2Input && three2Input.value ? three2Input.value : "";
+    const t1 = getPlaceValue(
+      placeRegLevel1,
+      placeRegLevel2,
+      placeRegLevel2Custom,
+      placeRegLevel3,
+      placeRegLevel3Custom,
+    );
+    const t2 = getPlaceValue(
+      placeIssueLevel1,
+      placeIssueLevel2,
+      placeIssueLevel2Custom,
+      placeIssueLevel3,
+      placeIssueLevel3Custom,
+    );
 
     ctx.fillText(v1, 860, 240);
     ctx.fillText(v2, 860, 400);
@@ -241,7 +297,7 @@
     ctx.fillText(d1, 1355, 760);
     ctx.fillText(d2, 1850, 760);
     ctx.fillText(t1, 900, 1000);
-    ctx.fillText(t2, 1600, 1000);
+    ctx.fillText(t2, 900, 1180);
   }
 
   // ===== СОБЫТИЕ ЗАГРУЗКИ ФАЙЛА =====
@@ -331,10 +387,115 @@
     line3Input,
     date1Input,
     date2Input,
-    three1Input,
-    three2Input,
+    placeRegLevel2Custom,
+    placeRegLevel3Custom,
+    placeIssueLevel2Custom,
+    placeIssueLevel3Custom,
   ].forEach((el) => {
     if (el) el.addEventListener("input", drawCard);
+  });
+
+  const placeFieldSets = [
+    {
+      level1: placeRegLevel1,
+      level2: placeRegLevel2,
+      level3: placeRegLevel3,
+      level2Row: placeRegLevel2Row,
+      level3Row: placeRegLevel3Row,
+      level2Custom: placeRegLevel2Custom,
+      level3Custom: placeRegLevel3Custom,
+    },
+    {
+      level1: placeIssueLevel1,
+      level2: placeIssueLevel2,
+      level3: placeIssueLevel3,
+      level2Row: placeIssueLevel2Row,
+      level3Row: placeIssueLevel3Row,
+      level2Custom: placeIssueLevel2Custom,
+      level3Custom: placeIssueLevel3Custom,
+    },
+  ];
+
+  function updatePlaceFields(fieldSet) {
+    const { level1, level2, level3, level2Row, level3Row, level2Custom, level3Custom } = fieldSet;
+
+    if (level1 && level1.value === "Полис") {
+      level2Row.classList.remove("hidden");
+    } else {
+      level2Row.classList.add("hidden");
+      if (level2) level2.value = "";
+      if (level2Custom) {
+        level2Custom.classList.add("hidden");
+        level2Custom.value = "";
+      }
+      level3Row.classList.add("hidden");
+      if (level3) level3.value = "";
+      if (level3Custom) {
+        level3Custom.classList.add("hidden");
+        level3Custom.value = "";
+      }
+      return;
+    }
+
+    if (level2 && level2.value === "own") {
+      level2Custom.classList.remove("hidden");
+    } else {
+      level2Custom.classList.add("hidden");
+      if (level2Custom) level2Custom.value = "";
+    }
+
+    if (level2 && level2.value) {
+      level3Row.classList.remove("hidden");
+    } else {
+      level3Row.classList.add("hidden");
+      if (level3) level3.value = "";
+      if (level3Custom) {
+        level3Custom.classList.add("hidden");
+        level3Custom.value = "";
+      }
+    }
+
+    if (level3 && level3.value === "own") {
+      level3Custom.classList.remove("hidden");
+    } else {
+      if (level3Custom) {
+        level3Custom.classList.add("hidden");
+        if (level3Custom.value === "") {
+          level3Custom.value = "";
+        }
+      }
+    }
+  }
+
+  function getPlaceValue(level1, level2, level2Custom, level3, level3Custom) {
+    let result = level1 && level1.value ? level1.value : "";
+
+    if (level1 && level1.value === "Полис" && level2 && level2.value) {
+      const second = level2.value === "own" ? level2Custom.value : level2.value;
+      if (second) {
+        result += result ? ` / ${second}` : second;
+      }
+    }
+
+    if (level3 && level3.value) {
+      const third = level3.value === "own" ? level3Custom.value : level3.value;
+      if (third) {
+        result += result ? ` / ${third}` : third;
+      }
+    }
+
+    return result;
+  }
+
+  function refreshPlaceFields() {
+    placeFieldSets.forEach((set) => updatePlaceFields(set));
+    drawCard();
+  }
+
+  placeFieldSets.forEach((set) => {
+    if (set.level1) set.level1.addEventListener("change", refreshPlaceFields);
+    if (set.level2) set.level2.addEventListener("change", refreshPlaceFields);
+    if (set.level3) set.level3.addEventListener("change", refreshPlaceFields);
   });
   if (choice1Input) choice1Input.addEventListener("change", drawCard);
 
@@ -504,10 +665,27 @@
   }
 
   .text-controls {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 12px;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .text-controls p {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    background: #ffffff;
+  }
+
+  .text-controls p label {
+    font-weight: 600;
+    color: #2f3740;
   }
 
   .text-controls input,
@@ -517,6 +695,44 @@
     border-radius: 4px;
     font-size: 14px;
     font-family: "Arial Narrow", Arial, sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .place-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 10px;
+  }
+
+  .place-column {
+    display: contents;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f4265;
+    margin: 20px 0 6px;
+  }
+
+  .nested-field {
+    background: #eef5fb;
+    border-color: #b7d9f2;
+    padding-left: 16px;
+  }
+
+  .nested-field label {
+    min-width: 120px;
+  }
+
+  .custom-input {
+    flex: 1 1 220px;
+  }
+
+  .hidden {
+    display: none !important;
   }
 
   #photoInput {
