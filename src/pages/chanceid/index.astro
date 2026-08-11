@@ -68,11 +68,12 @@
       </p>
       <p class="section-title">Место регистрации</p>
       <p>
-        <label for="placeRegLevel1">Тип</label>
+        <label for="placeRegLevel1">Место</label>
         <select id="placeRegLevel1">
           <option value=""></option>
           <option value="Полис">Полис</option>
           <option value="Сити">Сити</option>
+          <option value="Башня">Башня</option>
         </select>
       </p>
       <p class="nested-field hidden" id="placeRegLevel2Row">
@@ -145,26 +146,9 @@
   </div>
 </div>
 
-<script>
-  console.log("ChanceID page script loaded");
-  console.log("Cropper global:", typeof Cropper);
+<script type="module">
+  import { createChanceIdApp } from "/js/chanceid.js";
 
-  const canvas = document.getElementById("cardCanvas");
-  const ctx = canvas.getContext("2d");
-  const photoInput = document.getElementById("photoInput");
-  const cropperContainer = document.getElementById("cropperContainer");
-  const cropperImage = document.getElementById("cropperImage");
-  const applyCropBtn = document.getElementById("applyCropBtn");
-  const cancelCropBtn = document.getElementById("cancelCropBtn");
-  const downloadPngBtn = document.getElementById("downloadPngBtn");
-  const downloadJpgBtn = document.getElementById("downloadJpgBtn");
-  const downloadPdfBtn = document.getElementById("downloadPdfBtn");
-  const line1Input = document.getElementById("line1Input");
-  const line2Input = document.getElementById("line2Input");
-  const line3Input = document.getElementById("line3Input");
-  const choice1Input = document.getElementById("choice1Input");
-  const date1Input = document.getElementById("date1Input");
-  const date2Input = document.getElementById("date2Input");
   const placeRegLevel1 = document.getElementById("placeRegLevel1");
   const placeRegLevel2 = document.getElementById("placeRegLevel2");
   const placeRegLevel2Custom = document.getElementById("placeRegLevel2Custom");
@@ -179,221 +163,7 @@
   const placeIssueLevel3Custom = document.getElementById("placeIssueLevel3Custom");
   const placeIssueLevel2Row = document.getElementById("placeIssueLevel2Row");
   const placeIssueLevel3Row = document.getElementById("placeIssueLevel3Row");
-
-  // ===== ПЕРЕМЕННАЯ ДЛЯ ХРАНЕНИЯ ФОТО =====
-  let userPhoto = null;
-  let cropper = null;
-
-  // ===== ВЫСОКОЕ РАЗРЕШЕНИЕ =====
-  const scale = 1;
-
-  canvas.width = 2400 * scale;
-  canvas.height = 1280 * scale;
-
-  ctx.scale(scale, scale);
-
-  // ===== ФУНКЦИЯ ОТРИСОВКИ КАРТОЧКИ =====
-  function drawCard() {
-    // ===== ФОН =====
-    ctx.fillStyle = "#c0c0c0";
-    ctx.fillRect(0, 0, 2400, 1280);
-
-    // ===== СИНЯЯ ПОЛОСА СЛЕВА =====
-    ctx.fillStyle = "#1d1dca";
-    ctx.fillRect(0, 0, 120, 1280);
-
-    // ===== ЖЁЛТАЯ ПОЛОСА СВЕРХУ =====
-    ctx.fillStyle = "#f3e600";
-    ctx.fillRect(120, 0, 2280, 90);
-
-    // ===== ЛОГО =====
-    ctx.fillStyle = "#2442c7";
-    ctx.font = "bold 68px 'Arial Narrow', Arial, sans-serif";
-    ctx.fillText("CHANCE id", 1980, 68);
-
-    // ===== ФОТО БЛОК =====
-    ctx.fillStyle = "#efefef";
-    ctx.strokeStyle = "#2c7a88";
-    ctx.lineWidth = 8;
-
-    ctx.fillRect(60, 120, 750, 1000);
-    ctx.strokeRect(60, 120, 750, 1000);
-
-    // ===== ВСТАВКА ПОЛЬЗОВАТЕЛЬСКОГО ФОТО =====
-    if (userPhoto) {
-      ctx.drawImage(userPhoto, 60, 120, 750, 1000);
-    }
-
-    // ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ =====
-    function block(x, y, w, h, color, text, tx, ty, size = 48) {
-      ctx.fillStyle = color;
-      ctx.fillRect(x, y, w, h);
-
-      ctx.fillStyle = "#8fb6c0";
-      ctx.font = `bold ${size}px Arial`;
-      ctx.fillText(text, tx, ty);
-    }
-
-    // ===== БЕЛЫЕ БЛОКИ =====
-    block(840, 120, 1520, 150, "#ececec", "имя", 850, 160);
-    block(840, 280, 1520, 150, "#ececec", "второе имя", 850, 320);
-    block(840, 440, 1520, 150, "#ececec", "фамилия", 850, 480);
-
-    // ===== СЕРЫЙ БЛОК =====
-    ctx.fillStyle = "#7d8da1";
-    ctx.fillRect(840, 610, 1520, 220);
-
-    ctx.fillStyle = "#9ec1c9";
-    ctx.font = "bold 48px 'Arial Narrow', Arial, sans-serif";
-    ctx.fillText("гендерный маркер", 860, 660);
-    ctx.fillText("дата регистрации", 1380, 660);
-    ctx.fillText("дата выдачи", 1900, 660);
-
-    // ===== НИЖНИЙ БЛОК =====
-    ctx.fillStyle = "#d9eaf1";
-    ctx.fillRect(840, 840, 1520, 400);
-
-    ctx.fillStyle = "#6f8a96";
-    ctx.font = "bold 56px 'Arial Narrow', Arial, sans-serif";
-    ctx.fillText("место регистрации", 920, 900);
-    ctx.fillText("место учёта", 920, 1080);
-
-    // ===== НОМЕР СЧЁТА =====
-    ctx.fillStyle = "#ececec";
-    ctx.font = "bold 44px 'Arial Narrow', Arial, sans-serif";
-    ctx.fillText("номер", 130, 1200);
-    ctx.fillText("счета:", 130, 1240);
-
-    // ===== ЗАПОЛНЕНИЕ АЙДИ =====
-    ctx.fillStyle = "#14586b";
-    ctx.font = "bold 80px 'Arial Narrow'";
-    const v1 = line1Input && line1Input.value ? line1Input.value : "";
-    const v2 = line2Input && line2Input.value ? line2Input.value : "";
-    const v3 = line3Input && line3Input.value ? line3Input.value : "";
-    const c1 = choice1Input && choice1Input.value ? choice1Input.value : "";
-    const d1raw = date1Input && date1Input.value ? date1Input.value : "";
-    const d2raw = date2Input && date2Input.value ? date2Input.value : "";
-    const d1 = formatDateForCanvas(d1raw);
-    const d2 = formatDateForCanvas(d2raw);
-    const t1 = getPlaceValue(
-      placeRegLevel1,
-      placeRegLevel2,
-      placeRegLevel2Custom,
-      placeRegLevel3,
-      placeRegLevel3Custom,
-    );
-    const t2 = getPlaceValue(
-      placeIssueLevel1,
-      placeIssueLevel2,
-      placeIssueLevel2Custom,
-      placeIssueLevel3,
-      placeIssueLevel3Custom,
-    );
-
-    ctx.fillText(v1, 860, 240);
-    ctx.fillText(v2, 860, 400);
-    ctx.fillText(v3, 860, 560);
-    ctx.fillText(c1, 1000, 760);
-    ctx.fillText(d1, 1355, 760);
-    ctx.fillText(d2, 1850, 760);
-    ctx.fillText(t1, 900, 1000);
-    ctx.fillText(t2, 900, 1180);
-  }
-
-  // ===== СОБЫТИЕ ЗАГРУЗКИ ФАЙЛА =====
-  photoInput.addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Проверка формата файла
-    if (!file.type.startsWith("image/")) {
-      alert("Пожалуйста, загрузите изображение!");
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      cropperImage.src = event.target.result;
-
-      // ВАЖНО: Дождаться загрузки изображения перед инициализацией Cropper
-      cropperImage.onload = function () {
-        cropperContainer.style.display = "block";
-
-        // Инициализация Cropper
-        if (cropper) {
-          cropper.destroy();
-        }
-
-        cropper = new Cropper(cropperImage, {
-          aspectRatio: 0.75, // Пропорции 3:4
-          viewMode: 1,
-          autoCropArea: 1,
-          responsive: true,
-          restore: true,
-          guides: true,
-          center: true,
-          highlight: true,
-          cropBoxMovable: true,
-          cropBoxResizable: true,
-          toggleDragModeOnDblclick: true,
-          background: true,
-        });
-      };
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // ===== ПРИМЕНИТЬ ОБРЕЗАННОЕ ФОТО =====
-  applyCropBtn.addEventListener("click", function () {
-    if (!cropper) return;
-
-    const canvas2 = cropper.getCroppedCanvas({
-      maxWidth: 750,
-      maxHeight: 1000,
-      imageSmoothingEnabled: true,
-      imageSmoothingQuality: "high",
-    });
-
-    // Преобразуем canvas в изображение
-    userPhoto = new Image();
-
-    // ВАЖНО: Дождаться загрузки изображения перед отрисовкой
-    userPhoto.onload = function () {
-      drawCard();
-
-      // Скрываем Cropper контейнер
-      cropperContainer.style.display = "none";
-      cropper.destroy();
-      cropper = null;
-    };
-
-    userPhoto.src = canvas2.toDataURL();
-  });
-
-  // ===== ОТМЕНА =====
-  cancelCropBtn.addEventListener("click", function () {
-    if (cropper) {
-      cropper.destroy();
-      cropper = null;
-    }
-    cropperContainer.style.display = "none";
-    photoInput.value = "";
-  });
-
-  // Re-draw when inputs change; use change event for select
-  [
-    line1Input,
-    line2Input,
-    line3Input,
-    date1Input,
-    date2Input,
-    placeRegLevel2Custom,
-    placeRegLevel3Custom,
-    placeIssueLevel2Custom,
-    placeIssueLevel3Custom,
-  ].forEach((el) => {
-    if (el) el.addEventListener("input", drawCard);
-  });
+  const choice1Input = document.getElementById("choice1Input");
 
   const placeFieldSets = [
     {
@@ -489,7 +259,9 @@
 
   function refreshPlaceFields() {
     placeFieldSets.forEach((set) => updatePlaceFields(set));
-    drawCard();
+    if (app && typeof app.drawCard === "function") {
+      app.drawCard();
+    }
   }
 
   placeFieldSets.forEach((set) => {
@@ -497,147 +269,44 @@
     if (set.level2) set.level2.addEventListener("change", refreshPlaceFields);
     if (set.level3) set.level3.addEventListener("change", refreshPlaceFields);
   });
-  if (choice1Input) choice1Input.addEventListener("change", drawCard);
 
-  // ===== МАСКА ДЛЯ ПОЛЕЙ ДАТ (raw без точек) =====
-  function formatDateForCanvas(raw) {
-    const r = (raw || "").replace(/\./g, "");
-    if (!r) return "";
-    const a = r.slice(0, 2);
-    const b = r.slice(2, 4);
-    const c = r.slice(4, 8);
-    let out = a;
-    if (b) out += "." + b;
-    if (c) out += "." + c;
-    return out;
+  const app = createChanceIdApp({
+    canvasId: "cardCanvas",
+    photoInputId: "photoInput",
+    cropperContainerId: "cropperContainer",
+    cropperImageId: "cropperImage",
+    applyCropBtnId: "applyCropBtn",
+    cancelCropBtnId: "cancelCropBtn",
+    downloadPngBtnId: "downloadPngBtn",
+    downloadJpgBtnId: "downloadJpgBtn",
+    downloadPdfBtnId: "downloadPdfBtn",
+    lineInputIds: ["line1Input", "line2Input", "line3Input"],
+    choiceInputId: "choice1Input",
+    dateInputIds: ["date1Input", "date2Input"],
+    placeValueGetter: () => ({
+      t1: getPlaceValue(
+        placeRegLevel1,
+        placeRegLevel2,
+        placeRegLevel2Custom,
+        placeRegLevel3,
+        placeRegLevel3Custom,
+      ),
+      t2: getPlaceValue(
+        placeIssueLevel1,
+        placeIssueLevel2,
+        placeIssueLevel2Custom,
+        placeIssueLevel3,
+        placeIssueLevel3Custom,
+      ),
+    }),
+  });
+
+  if (choice1Input) {
+    choice1Input.addEventListener("change", () => app.drawCard());
   }
 
-  function formatDateDisplay(raw) {
-    const r = raw.replace(/\./g, "");
-    const a = r.slice(0, 2);
-    const b = r.slice(2, 4);
-    const c = r.slice(4, 8);
-    let out = a;
-    if (b) out += "." + b;
-    if (c) out += "." + c;
-    return out;
-  }
-
-  function getRawDateValue(value) {
-    return (value || "").replace(/\./g, "");
-  }
-
-  function displayCursorPos(rawPos) {
-    if (rawPos <= 2) return rawPos;
-    if (rawPos <= 4) return rawPos + 1;
-    return rawPos + 2;
-  }
-
-  function attachDateMask(el) {
-    if (!el) return;
-
-    el.addEventListener("input", function () {
-      const rawBefore = getRawDateValue(
-        el.value.slice(0, el.selectionStart || 0),
-      );
-      const filtered = getRawDateValue(el.value)
-        .replace(/[^0-9A-Za-z]/g, "")
-        .toUpperCase()
-        .slice(0, 8);
-      const formatted = formatDateDisplay(filtered);
-      el.value = formatted;
-      const cursorPosition = displayCursorPos(
-        Math.min(rawBefore.length, filtered.length),
-      );
-      el.setSelectionRange(cursorPosition, cursorPosition);
-      drawCard();
-    });
-
-    el.addEventListener("keydown", function (e) {
-      const nav = [
-        "Backspace",
-        "Delete",
-        "ArrowLeft",
-        "ArrowRight",
-        "Tab",
-        "Home",
-        "End",
-      ];
-      if (e.ctrlKey || e.metaKey || nav.includes(e.key)) return;
-      if (e.key.length === 1 && !/^[0-9A-Za-z]$/.test(e.key)) {
-        e.preventDefault();
-      }
-      const raw = getRawDateValue(el.value).replace(/[^0-9A-Za-z]/g, "");
-      if (raw.length >= 8 && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-        e.preventDefault();
-      }
-    });
-
-    el.addEventListener("paste", function (e) {
-      e.preventDefault();
-      const paste =
-        (e.clipboardData || window.clipboardData).getData("text") || "";
-      const raw = getRawDateValue(el.value) + paste;
-      const combined = raw
-        .replace(/[^0-9A-Za-z]/g, "")
-        .toUpperCase()
-        .slice(0, 8);
-      el.value = formatDateDisplay(combined);
-      drawCard();
-    });
-  }
-
-  attachDateMask(date1Input);
-  attachDateMask(date2Input);
-
-  // ===== ФУНКЦИИ СКАЧИВАНИЯ =====
-  function downloadImage(format) {
-    const link = document.createElement("a");
-    const timestamp = new Date().toISOString().slice(0, 10);
-    const name = `CHANCE_id_${timestamp}`;
-
-    if (format === "png") {
-      link.href = canvas.toDataURL("image/png");
-      link.download = name + ".png";
-    } else if (format === "jpg") {
-      link.href = canvas.toDataURL("image/jpeg", 0.95);
-      link.download = name + ".jpg";
-    }
-
-    link.click();
-  }
-
-  function downloadPDF() {
-    const timestamp = new Date().toISOString().slice(0, 10);
-    const filename = `CHANCE_id_${timestamp}.pdf`;
-
-    // Get canvas as image data
-    const imgData = canvas.toDataURL("image/png");
-
-    // Create PDF with landscape orientation
-    const { jsPDF } = window;
-    const pdf = new jsPDF({
-      orientation: "landscape",
-      unit: "px",
-      format: [2400, 1280],
-    });
-
-    // Add image to PDF
-    pdf.addImage(imgData, "PNG", 0, 0, 2400, 1280);
-
-    // Save PDF
-    pdf.save(filename);
-  }
-
-  // ===== ОБРАБОТЧИКИ КНОПОК СКАЧИВАНИЯ =====
-  if (downloadPngBtn)
-    downloadPngBtn.addEventListener("click", () => downloadImage("png"));
-  if (downloadJpgBtn)
-    downloadJpgBtn.addEventListener("click", () => downloadImage("jpg"));
-  if (downloadPdfBtn) downloadPdfBtn.addEventListener("click", downloadPDF);
-
-  // ===== ПЕРВОНАЧАЛЬНАЯ ОТРИСОВКА =====
-  drawCard();
+  refreshPlaceFields();
+  app.drawCard();
 </script>
 
 <style>
