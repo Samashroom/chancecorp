@@ -1,0 +1,17 @@
+---
+import Base from '../Base.astro';
+
+import Head from '../../components/UniversalHead.astro';
+---
+<Base>
+  <Head />
+  <body>
+  <div class="prose prose-lg max-w-none
+            prose-headings:font-bold
+            prose-h1:text-3xl
+            prose-h2:text-2xl
+            prose-h3:text-xl">
+    <slot />
+  </div>
+  </body>
+</Base>

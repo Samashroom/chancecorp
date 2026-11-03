@@ -1,7 +1,8 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
-import remarkResolveContentImages from "./src/remark-resolve-content-images.js";
+
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,7 +10,8 @@ export default defineConfig({
   base: '',
   trailingSlash: 'never',
   integrations: [react()],
-  markdown: {
-    remarkPlugins: [remarkResolveContentImages],
+
+  vite: {
+    plugins: [tailwindcss()],
   },
 });
