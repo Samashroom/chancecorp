@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
+import type { ImageMetadata } from "astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("news");
@@ -31,6 +33,13 @@ import BaseNews from "../../layouts/news/BaseNews.astro";
       <!-- Инфобокс: плавает справа, текст будет его обтекать -->
       {infobox && (
         <aside class="float-left w-64 mr-4 mb-4 border border-gray-300 rounded-lg overflow-hidden bg-gray-50 text-sm clearfix">
+          {entry.data.image && (
+            <Image
+              src={entry.data.image as ImageMetadata}
+              alt={entry.data.title}
+              class="w-full h-32 object-cover"
+            />
+          )}
           <div class="bg-gray-200 px-3 py-2 font-bold text-center border-b border-gray-300">
             {entry.data.title}
           </div>
