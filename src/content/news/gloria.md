@@ -1,6 +1,6 @@
 ---
 title: "Глория де Кальмар"
-description: "Пример Markdown, который показывает, как prose стилизует контент"
+description: "Статья о персонаже"
 image: "../../assets/gloria.png"
 infobox:
   Пол: "Женский"
